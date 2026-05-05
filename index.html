@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="assets/css/styles.css" />
     <script defer src="assets/js/site.js"></script>
   </head>
-  <body data-page="home" data-base=".">
+  <body class="intro-active" data-page="home" data-base=".">
     <div class="intro-screen" data-intro-screen aria-hidden="true">
       <span class="intro-screen__streak intro-screen__streak--1" aria-hidden="true"></span>
       <span class="intro-screen__streak intro-screen__streak--2" aria-hidden="true"></span>
@@ -42,24 +42,55 @@
 
     <main>
       <section class="hero">
-        <div class="container">
-          <div class="hero-copy hero-shell" data-reveal>
-            <span class="eyebrow">Digital Presence, Engineered</span>
-            <h1>
-              Ιστοσελίδες, εφαρμογές και <span class="lead-accent">AI εμπειρίες</span><br />
-              <span class="hero-line">που δουλεύουν για την επιχείρησή σας.</span>
-            </h1>
-            <p>
-              Η LionCodeX σχεδιάζει premium ψηφιακή παρουσία για brands που θέλουν καλύτερη εικόνα, πιο έξυπνη λειτουργία και πραγματική απόδοση σε leads, πωλήσεις και εμπιστοσύνη.
-            </p>
-            <div class="btn-row">
-              <a class="btn btn-primary" href="contact.html">Κλείστε Στρατηγικό Call</a>
-              <a class="btn btn-secondary" href="services.html">Δείτε Υπηρεσίες</a>
+        <div class="container hero-shell">
+          <div class="hero-main" data-reveal>
+            <div class="hero-copy">
+              <span class="eyebrow">DIGITAL PRESENCE, ENGINEERED</span>
+              <h1>
+                Ιστοσελίδες, εφαρμογές και <span class="lead-accent">AI εμπειρίες</span><br />
+                που δουλεύουν για την επιχείρησή σας.
+              </h1>
+              <p>
+                Η LionCodeX σχεδιάζει premium ψηφιακή παρουσία για brands που θέλουν καλύτερη εικόνα, πιο έξυπνη λειτουργία και πραγματική απόδοση σε leads, πωλήσεις και εμπιστοσύνη.
+              </p>
+              <div class="btn-row">
+                <a class="btn btn-primary" href="contact.html">Κλείστε Στρατηγικό Call</a>
+                <a class="btn btn-secondary" href="services.html">Δείτε Υπηρεσίες</a>
+              </div>
+              <div class="hero-value-points">
+                <span class="hero-value-point"><strong>Web</strong> premium custom builds</span>
+                <span class="hero-value-point"><strong>AI</strong> agents για websites &amp; e-shops</span>
+                <span class="hero-value-point"><strong>Growth</strong> δομή για conversion</span>
+              </div>
             </div>
-            <div class="hero-annotation">
-              <span class="mini-chip"><strong>Web</strong> premium custom builds</span>
-              <span class="mini-chip"><strong>AI</strong> agents για websites &amp; e-shops</span>
-              <span class="mini-chip"><strong>Growth</strong> δομή για conversion</span>
+          </div>
+          <div class="hero-bubble-row" data-reveal>
+            <div class="hero-assistant is-open">
+              <div class="leo-chat-card">
+                <div class="leo-chat-card__header">
+                  <div>
+                    <strong>Leo – AI Concierge</strong>
+                    <span>Ο ψηφιακός σου οδηγός για να βρεις τη σωστή λύση για την επιχείρησή σου.</span>
+                  </div>
+                </div>
+                <div class="leo-chat-card__message" aria-live="polite">
+                  <div class="leo-chat-card__entry leo-chat-card__entry--leo">
+                    <p>Γεια! Είμαι ο Leo.<br />Μπορώ να σε βοηθήσω να βρεις ποια ψηφιακή λύση ταιριάζει καλύτερα στην επιχείρησή σου.</p>
+                  </div>
+                </div>
+                <div class="leo-chat-card__chips">
+                  <button class="leo-chat-card__chip" type="button">Θέλω περισσότερους πελάτες</button>
+                  <button class="leo-chat-card__chip" type="button">Θέλω online πωλήσεις</button>
+                  <button class="leo-chat-card__chip" type="button">Θέλω καλύτερη online παρουσία</button>
+                  <button class="leo-chat-card__chip" type="button">Με ενδιαφέρει AI</button>
+                </div>
+                <div class="leo-chat-card__actions" aria-live="polite"></div>
+              </div>
+              <div class="hero-leo-popout" aria-hidden="true">
+                <button class="leo-mascot" type="button" aria-label="Leo mascot">
+                  <img src="assets/Leo/Leo-peek-idle.png" alt="Leo mascot" />
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -162,15 +162,699 @@ function initPortfolioFilters() {
   });
 }
 
+function initPageLeoGuide() {
+  if (document.body.dataset.page === "home") return;
+
+  const heroGrid = document.querySelector(".page-hero-grid");
+  const pageHero = document.querySelector(".page-hero");
+  if (!heroGrid || !pageHero) return;
+
+  const pathname = window.location.pathname.toLowerCase();
+  const currentPage = document.body.dataset.page;
+  const messageMap = new Map([
+    [
+      "/index.html",
+      "Καλώς ήρθες στο LionCodeX. Εδώ δεν φτιάχνουμε απλώς sites — χτίζουμε ψηφιακές εμπειρίες που δουλεύουν για την επιχείρησή σου."
+    ],
+    [
+      "/services/website-development.html",
+      "Αν θέλεις ιστοσελίδα, δεν ξεκινάμε από το design. Ξεκινάμε από το τι πρέπει να καταλάβει και να νιώσει ο πελάτης σου."
+    ],
+    [
+      "/services/ecommerce.html",
+      "Ένα e-shop δεν πρέπει απλώς να δείχνει προϊόντα. Πρέπει να βοηθά τον επισκέπτη να αγοράσει εύκολα, γρήγορα και με εμπιστοσύνη."
+    ],
+    [
+      "/ai-solutions.html",
+      "Εδώ μπαίνει η διαφορά. Μπορώ να γίνω ο ψηφιακός βοηθός της δικής σου επιχείρησης και να εξυπηρετώ τους επισκέπτες σου 24/7."
+    ],
+    [
+      "/services/ai-agent-integration.html",
+      "Εδώ μπαίνει η διαφορά. Μπορώ να γίνω ο ψηφιακός βοηθός της δικής σου επιχείρησης και να εξυπηρετώ τους επισκέπτες σου 24/7."
+    ],
+    [
+      "/services/digital-marketing.html",
+      "Το marketing δεν είναι να φωνάζεις πιο δυνατά. Είναι να εμφανίζεσαι σωστά, τη σωστή στιγμή, στον σωστό άνθρωπο."
+    ],
+    [
+      "/services/web-apps.html",
+      "Μια εφαρμογή πρέπει να λύνει πραγματικό πρόβλημα. Όχι να υπάρχει απλώς επειδή ακούγεται εντυπωσιακό."
+    ],
+    [
+      "/services/mobile-apps.html",
+      "Μια εφαρμογή πρέπει να λύνει πραγματικό πρόβλημα. Όχι να υπάρχει απλώς επειδή ακούγεται εντυπωσιακό."
+    ],
+    [
+      "/about.html",
+      "Το LionCodeX δημιουργήθηκε για επιχειρήσεις που θέλουν κάτι πιο έξυπνο, πιο ανθρώπινο και πιο αποτελεσματικό από μια απλή online παρουσία."
+    ],
+    [
+      "/contact.html",
+      "Πες μας τι έχεις στο μυαλό σου και θα σε βοηθήσουμε να δούμε ποια λύση ταιριάζει καλύτερα στην επιχείρησή σου."
+    ],
+    [
+      "/services.html",
+      "Κάθε υπηρεσία εδώ είναι σχεδιασμένη για να εξυπηρετεί πραγματικό επιχειρηματικό στόχο, όχι απλώς για να γεμίσει μια λίστα δυνατοτήτων."
+    ],
+    [
+      "/portfolio.html",
+      "Εδώ θα δεις το επίπεδο σκέψης και αισθητικής που βάζουμε σε κάθε ψηφιακή εμπειρία πριν φτάσει μπροστά στον πελάτη σου."
+    ],
+    [
+      "/process.html",
+      "Ο τρόπος που δουλεύουμε έχει σημασία όσο και το τελικό αποτέλεσμα. Θέλουμε να ξέρεις τι χτίζεται, γιατί και με ποια λογική."
+    ]
+  ]);
+
+  const fallbackMessageByPage = {
+    ai: "Η AI αποδίδει όταν μπαίνει σε σωστό σημείο της εμπειρίας και υπηρετεί έναν καθαρό επιχειρηματικό ρόλο.",
+    services:
+      "Κάθε υπηρεσία εδώ είναι σχεδιασμένη για να εξυπηρετεί πραγματικό επιχειρηματικό στόχο, όχι απλώς για να γεμίσει μια λίστα δυνατοτήτων.",
+    about:
+      "Το LionCodeX δημιουργήθηκε για επιχειρήσεις που θέλουν κάτι πιο έξυπνο, πιο ανθρώπινο και πιο αποτελεσματικό από μια απλή online παρουσία.",
+    contact:
+      "Πες μας τι έχεις στο μυαλό σου και θα σε βοηθήσουμε να δούμε ποια λύση ταιριάζει καλύτερα στην επιχείρησή σου.",
+    portfolio:
+      "Εδώ θα δεις το επίπεδο σκέψης και αισθητικής που βάζουμε σε κάθε ψηφιακή εμπειρία πριν φτάσει μπροστά στον πελάτη σου.",
+    process:
+      "Ο τρόπος που δουλεύουμε έχει σημασία όσο και το τελικό αποτέλεσμα. Θέλουμε να ξέρεις τι χτίζεται, γιατί και με ποια λογική."
+  };
+
+  const message =
+    [...messageMap.entries()].find(([suffix]) => pathname.endsWith(suffix))?.[1] ||
+    fallbackMessageByPage[currentPage];
+  const isServicesOverview = pathname.endsWith("/services.html");
+  const isWebsiteServicePage = pathname.endsWith("/services/website-development.html");
+
+  if (!message) return;
+
+  let side = heroGrid.querySelector(".page-hero-side");
+  if (!side) {
+    side = document.createElement("div");
+    side.className = "page-hero-side";
+    side.setAttribute("data-reveal", "");
+    heroGrid.append(side);
+  }
+
+  heroGrid.classList.add("page-hero-grid--with-leo");
+  pageHero.classList.add("page-hero--with-leo");
+  side.classList.remove("page-hero-frame");
+  side.classList.add("page-hero-side--leo");
+  side.innerHTML = isServicesOverview || isWebsiteServicePage
+    ? `
+      <section class="leo-page-guide leo-page-guide--interactive" aria-label="Leo AI concierge">
+        <div class="leo-page-guide__bubble">
+          <span class="leo-page-guide__label">${isWebsiteServicePage ? "Leo · Website Consultant" : "Leo · Service Guide"}</span>
+          <div class="leo-page-guide__dialogue" aria-live="polite">
+            <p>${message}</p>
+          </div>
+          <div class="leo-page-guide__chips">
+            ${
+              isWebsiteServicePage
+                ? `
+                  <button class="leo-page-guide__chip" type="button">Τι κάνει μια ιστοσελίδα αποτελεσματική;</button>
+                  <button class="leo-page-guide__chip" type="button">Για ποιες επιχειρήσεις ταιριάζει;</button>
+                  <button class="leo-page-guide__chip" type="button">Θέλω να το συζητήσουμε</button>
+                `
+                : `
+                  <button class="leo-page-guide__chip" type="button" data-service-choice="web-presence">Θέλω να ξεκινήσω online</button>
+                  <button class="leo-page-guide__chip" type="button" data-service-choice="ecommerce">Θέλω να πουλάω online</button>
+                  <button class="leo-page-guide__chip" type="button" data-service-choice="apps-systems">Θέλω εφαρμογή ή custom σύστημα</button>
+                  <button class="leo-page-guide__chip" type="button" data-service-choice="ai">Θέλω να βάλω AI στο site μου</button>
+                  <button class="leo-page-guide__chip" type="button" data-service-choice="growth">Θέλω ανάπτυξη και προβολή</button>
+                `
+            }
+          </div>
+          <div class="leo-page-guide__actions" aria-live="polite"></div>
+        </div>
+        <div class="leo-page-guide__reaction" aria-live="polite" aria-hidden="true"></div>
+        <figure class="leo-page-guide__avatar-wrap">
+          <img class="leo-page-guide__avatar" src="${relativePath("assets/Leo/Leo-happy1.png")}" alt="Leo AI concierge mascot" />
+        </figure>
+      </section>
+    `
+    : `
+      <section class="leo-page-guide" aria-label="Leo AI concierge">
+        <div class="leo-page-guide__bubble">
+          <span class="leo-page-guide__label">Leo · AI Concierge</span>
+          <p>${message}</p>
+        </div>
+        <figure class="leo-page-guide__avatar-wrap">
+          <img class="leo-page-guide__avatar" src="${relativePath("assets/Leo/Leo-happy1.png")}" alt="Leo AI concierge mascot" />
+        </figure>
+      </section>
+    `;
+
+  const guide = side.querySelector(".leo-page-guide");
+  const avatar = side.querySelector(".leo-page-guide__avatar");
+  const reactionBubble = side.querySelector(".leo-page-guide__reaction");
+  if (!guide || !avatar) return;
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const leoBasePath = relativePath("assets/Leo");
+  const excitedSrc = `${leoBasePath}/Leo-excited.png`;
+  const happySrc = `${leoBasePath}/Leo-happy1.png`;
+  const idle2Src = `${leoBasePath}/Leo-idle2.png`;
+  const idle4Src = `${leoBasePath}/Leo-idle4.png`;
+  const walkFrames = ["Leo-walk1.png", "Leo-walk2.png", "Leo-walk3.png", "Leo-walk4.png"];
+  const waveFrames = ["Leo-wave1.png", "Leo-wave2.png"];
+  const talkFrames = ["Leo-talk1.png", "Leo-talk2.png", "Leo-talk3.png", "Leo-talk4.png"];
+  let frameTimer = 0;
+  let stateTimer = 0;
+  let guideRestingSrc = happySrc;
+
+  function leoAsset(filename) {
+    return `${leoBasePath}/${filename}`;
+  }
+
+  [...new Set(["Leo-excited.png", "Leo-happy1.png", "Leo-idle2.png", "Leo-idle4.png", ...walkFrames, ...waveFrames, ...talkFrames])].forEach((filename) => {
+    const image = new Image();
+    image.src = leoAsset(filename);
+  });
+
+  function clearLeoGuideTimers() {
+    window.clearTimeout(frameTimer);
+    window.clearTimeout(stateTimer);
+    frameTimer = 0;
+    stateTimer = 0;
+  }
+
+  function showGuideReaction(message) {
+    if (!reactionBubble) return;
+    reactionBubble.textContent = message;
+    reactionBubble.classList.add("is-visible");
+    reactionBubble.setAttribute("aria-hidden", "false");
+  }
+
+  function hideGuideReaction() {
+    if (!reactionBubble) return;
+    reactionBubble.classList.remove("is-visible");
+    reactionBubble.setAttribute("aria-hidden", "true");
+  }
+
+  function setGuideFrame(src) {
+    avatar.src = src;
+  }
+
+  function setGuideRestingState(src) {
+    guideRestingSrc = src;
+  }
+
+  function enterHappyState() {
+    setGuideRestingState(happySrc);
+    guide.classList.remove("is-talking");
+    setGuideFrame(happySrc);
+  }
+
+  function enterGuideIdle2State() {
+    setGuideRestingState(idle2Src);
+    guide.classList.remove("is-talking");
+    setGuideFrame(idle2Src);
+  }
+
+  function enterGuideRestingState() {
+    guide.classList.remove("is-talking");
+    setGuideFrame(guideRestingSrc);
+  }
+
+  function playLeoGuideSequence(frames, totalDuration, onComplete) {
+    const sequence = frames.slice();
+    const frameDuration = Math.max(130, Math.round(totalDuration / sequence.length));
+    let frameIndex = 0;
+
+    const tick = () => {
+      setGuideFrame(leoAsset(sequence[frameIndex]));
+      frameIndex += 1;
+      if (frameIndex >= sequence.length) {
+        onComplete?.();
+        return;
+      }
+      frameTimer = window.setTimeout(tick, frameDuration);
+    };
+
+    tick();
+  }
+
+  function playLeoGuideLoadSequence() {
+    clearLeoGuideTimers();
+
+    if (reducedMotion.matches) {
+      avatar.src = leoAsset("Leo-wave1.png");
+      stateTimer = window.setTimeout(() => {
+        guide.classList.add("is-talking");
+        avatar.src = leoAsset("Leo-talk1.png");
+        stateTimer = window.setTimeout(() => {
+          enterGuideIdle2State();
+          stateTimer = window.setTimeout(enterHappyState, 2200);
+        }, 3200);
+      }, 1600);
+      return;
+    }
+
+    playLeoGuideSequence([...waveFrames, ...waveFrames], 1700, () => {
+      guide.classList.add("is-talking");
+      playLeoGuideSequence([...talkFrames, ...talkFrames, ...talkFrames], 3900, () => {
+        enterGuideIdle2State();
+        stateTimer = window.setTimeout(enterHappyState, 2200);
+      });
+    });
+  }
+
+  avatar.addEventListener("error", () => {
+    setGuideFrame(happySrc);
+  });
+
+  guide.addEventListener("pointerenter", () => {
+    clearLeoGuideTimers();
+    guide.classList.remove("is-talking");
+    avatar.src = idle4Src;
+  });
+
+  guide.addEventListener("pointerleave", () => {
+    enterGuideRestingState();
+  });
+
+  enterHappyState();
+  playLeoGuideLoadSequence();
+
+  if (isServicesOverview || isWebsiteServicePage) {
+    const dialogue = guide.querySelector(".leo-page-guide__dialogue");
+    const chips = Array.from(guide.querySelectorAll(".leo-page-guide__chip"));
+    const actions = guide.querySelector(".leo-page-guide__actions");
+    if (!dialogue || !chips.length || !actions) return;
+
+    const servicesGuideMap = isWebsiteServicePage
+      ? new Map([
+          [
+            "Τι κάνει μια ιστοσελίδα αποτελεσματική;",
+            {
+              response:
+                "Μια αποτελεσματική ιστοσελίδα έχει ξεκάθαρο μήνυμα, σωστή δομή, γρήγορη εμπειρία, εμπιστοσύνη και διαδρομή που οδηγεί τον επισκέπτη στο επόμενο βήμα.",
+              actions: [
+                { label: "Δες τη διαδικασία", href: "process.html" },
+                { label: "Κλείσε call", href: "contact.html" }
+              ]
+            }
+          ],
+          [
+            "Για ποιες επιχειρήσεις ταιριάζει;",
+            {
+              response:
+                "Ταιριάζει σε επιχειρήσεις που θέλουν επαγγελματική παρουσία, περισσότερη αξιοπιστία και ένα σημείο αναφοράς όπου ο πελάτης καταλαβαίνει άμεσα τι προσφέρουν.",
+              actions: [
+                { label: "Δες υπηρεσίες", href: "services.html" },
+                { label: "Μίλησε μαζί μας", href: "contact.html" }
+              ]
+            }
+          ],
+          [
+            "Θέλω να το συζητήσουμε",
+            {
+              response:
+                "Μπορούμε να ξεκινήσουμε από τον στόχο σου και να δούμε αν χρειάζεσαι απλή παρουσίαση, πιο στρατηγικό website ή κάτι με AI λειτουργίες.",
+              actions: [
+                { label: "Επικοινωνία", href: "contact.html" },
+                { label: "Στρατηγικό call", href: "contact.html" }
+              ]
+            }
+          ]
+        ])
+      : new Map([
+          [
+            "web-presence",
+            {
+              response:
+                "Αν θέλεις να ξεκινήσεις online σωστά, ξεκίνα από μια επαγγελματική παρουσία με καθαρό μήνυμα, σωστή δομή και εμπειρία που εμπνέει εμπιστοσύνη.",
+              actions: [
+                {
+                  label: "Δες Websites",
+                  href: "services/website-development.html",
+                  guidedTarget: "websites-commerce",
+                  guidedContext: "websites-commerce",
+                  guidedMessage:
+                    "Ωραία, πάμε να δούμε λύσεις που μπορούν να κάνουν την επιχείρησή σου να ξεχωρίσει online."
+                },
+                {
+                  label: "Μίλησε μαζί μας",
+                  href: "contact.html",
+                  guidedTarget: "websites-commerce",
+                  guidedContext: "contact",
+                  guidedMessage: "Τέλεια, πάμε να ανοίξουμε τον πιο άμεσο δρόμο επικοινωνίας."
+                }
+              ],
+              target: "websites-commerce"
+            }
+          ],
+          [
+            "ecommerce",
+            {
+              response:
+                "Αν θέλεις να πουλάς online, αυτή είναι η σωστή κατηγορία για e-shop με καλύτερη εμπειρία αγοράς, εμπιστοσύνη και πιο δυνατό εμπορικό flow.",
+              actions: [
+                { label: "Δες E-shops", href: "services/ecommerce.html" },
+                { label: "Ζήτησε πρόταση", href: "contact.html" }
+              ],
+              target: "websites-commerce"
+            }
+          ],
+          [
+            "apps-systems",
+            {
+              response:
+                "Αν χρειάζεσαι εφαρμογή ή custom σύστημα, εδώ θα δεις λύσεις που οργανώνουν διαδικασίες, συγκεντρώνουν λειτουργίες και στηρίζουν την καθημερινή δουλειά της επιχείρησής σου.",
+              actions: [
+                { label: "Δες Web Apps", href: "services/web-apps.html" },
+                { label: "Ζήτησε πρόταση", href: "contact.html" }
+              ],
+              reactionMessage:
+                "Τέλεια επιλογή! Πάμε να δούμε πώς μια εφαρμογή μπορεί να οργανώσει καλύτερα την επιχείρησή σου.",
+              target: "apps-systems"
+            }
+          ],
+          [
+            "ai",
+            {
+              response:
+                "Αν θέλεις να βάλεις AI στο site σου, εδώ θα δεις λύσεις για agents και assistants που καθοδηγούν, εξυπηρετούν και ενισχύουν τα leads.",
+              actions: [
+                { label: "Δες AI Solutions", href: "ai-solutions.html" },
+                { label: "Θέλω demo concept", href: "contact.html" }
+              ],
+              target: "ai-automation"
+            }
+          ],
+          [
+            "growth",
+            {
+              response:
+                "Αν ο στόχος σου είναι ανάπτυξη και προβολή, αυτή η κατηγορία συγκεντρώνει marketing, SEO, tracking και conversion thinking για πιο μετρήσιμα αποτελέσματα.",
+              actions: [
+                { label: "Δες Digital Marketing", href: "services/digital-marketing.html" },
+                { label: "Κλείσε στρατηγικό call", href: "contact.html" }
+              ],
+              target: "marketing-growth"
+            }
+          ]
+        ]);
+
+    function setActiveChip(selectedLabel) {
+      chips.forEach((chip) => {
+        const chipKey = chip.dataset.serviceChoice || chip.textContent?.trim();
+        const isActive = chipKey === selectedLabel;
+        chip.classList.toggle("is-active", isActive);
+        chip.setAttribute("aria-pressed", String(isActive));
+      });
+    }
+
+    function renderServiceActions(actionItems = []) {
+      actions.innerHTML = "";
+      actionItems.forEach((action) => {
+        const actionLink = document.createElement("a");
+        actionLink.className = "leo-page-guide__action";
+        actionLink.href = relativePath(action.href);
+        actionLink.textContent = action.label;
+        if (action.guidedTarget) {
+          actionLink.dataset.guidedTarget = action.guidedTarget;
+        }
+        if (action.guidedMessage) {
+          actionLink.dataset.guidedMessage = action.guidedMessage;
+        }
+        if (action.guidedContext) {
+          actionLink.dataset.guidedContext = action.guidedContext;
+        }
+        actions.append(actionLink);
+      });
+    }
+
+    let highlightTimer = 0;
+    const serviceCards = Array.from(document.querySelectorAll("[data-service-group]"));
+    const cardWalkState = new WeakMap();
+    const cardContextState = new WeakMap();
+    const defaultGuideReactionMessage = "Τέλεια επιλογή! Έλα να σου δείξω τι μπορούμε να χτίσουμε μαζί.";
+    const guideReactionDelay = 1950;
+    const cardContextDelay = 520;
+    const cardContextDuration = 5600;
+    const cardContextMessages = {
+      "websites-commerce":
+        "Εδώ χτίζουμε την πρώτη δυνατή εικόνα της επιχείρησής σου online — με σωστή δομή, καθαρό μήνυμα και εμπειρία που οδηγεί σε αποτέλεσμα.",
+      "apps-systems":
+        "Εδώ σχεδιάζουμε εργαλεία που οργανώνουν διαδικασίες, αυτοματοποιούν δουλειές και λύνουν πραγματικά λειτουργικά προβλήματα.",
+      "ai-automation":
+        "Εδώ ο Leo γίνεται πραγματικός ψηφιακός βοηθός: απαντά, καθοδηγεί και υποστηρίζει τους επισκέπτες σου με πιο έξυπνο τρόπο.",
+      "marketing-growth":
+        "Εδώ δεν μιλάμε απλώς για προβολή. Στήνουμε στρατηγική ώστε ο σωστός κόσμος να σε βρίσκει, να σε καταλαβαίνει και να σε εμπιστεύεται.",
+      contact:
+        "Αν έχεις μια ιδέα, μια ανάγκη ή απλώς θέλεις να δεις από πού να ξεκινήσεις, μπορούμε να το συζητήσουμε απλά και καθαρά."
+    };
+
+    function parseAnimationDurationMs(value) {
+      const firstValue = value.split(",")[0]?.trim() || "0s";
+      if (firstValue.endsWith("ms")) {
+        return Number.parseFloat(firstValue);
+      }
+      if (firstValue.endsWith("s")) {
+        return Number.parseFloat(firstValue) * 1000;
+      }
+      return 0;
+    }
+
+    function stopServiceCardWalk(card) {
+      const walkState = cardWalkState.get(card);
+      const walkTrack = card.querySelector(".leo-walk-track");
+      const walkAvatar = card.querySelector(".leo-walk-avatar");
+      if (walkState?.frameTimer) {
+        window.clearInterval(walkState.frameTimer);
+      }
+      if (walkState?.settleTimer) {
+        window.clearTimeout(walkState.settleTimer);
+      }
+      if (walkTrack && walkState?.endHandler) {
+        walkTrack.removeEventListener("animationend", walkState.endHandler);
+      }
+      if (walkAvatar) {
+        walkAvatar.src = leoAsset(walkFrames[0]);
+      }
+      cardWalkState.delete(card);
+    }
+
+    function hideServiceCardContext(card) {
+      const bubble = card.querySelector(".leo-walk-bubble");
+      const contextState = cardContextState.get(card);
+      if (contextState?.showTimer) {
+        window.clearTimeout(contextState.showTimer);
+      }
+      if (contextState?.hideTimer) {
+        window.clearTimeout(contextState.hideTimer);
+      }
+      if (bubble) {
+        bubble.classList.remove("is-visible");
+        bubble.setAttribute("aria-hidden", "true");
+      }
+      cardContextState.delete(card);
+    }
+
+    function showServiceCardContext(card, contextKey) {
+      const bubble = card.querySelector(".leo-walk-bubble");
+      const messageText = contextKey ? cardContextMessages[contextKey] : "";
+      if (!bubble || !messageText) return;
+
+      hideServiceCardContext(card);
+      bubble.textContent = messageText;
+
+      const showTimer = window.setTimeout(() => {
+        bubble.classList.add("is-visible");
+        bubble.setAttribute("aria-hidden", "false");
+      }, cardContextDelay);
+
+      const hideTimer = window.setTimeout(() => {
+        bubble.classList.remove("is-visible");
+        bubble.setAttribute("aria-hidden", "true");
+        cardContextState.delete(card);
+      }, cardContextDelay + cardContextDuration);
+
+      cardContextState.set(card, { showTimer, hideTimer });
+    }
+
+    function startServiceCardWalk(card) {
+      const walkTrack = card.querySelector(".leo-walk-track");
+      const walkAvatar = card.querySelector(".leo-walk-avatar");
+      if (!walkTrack || !walkAvatar) return;
+
+      stopServiceCardWalk(card);
+      walkAvatar.src = leoAsset(walkFrames[0]);
+
+      if (reducedMotion.matches) return;
+
+      const walkDuration = Math.max(1, parseAnimationDurationMs(window.getComputedStyle(walkTrack).animationDuration));
+      const totalFrameSteps = Math.max(8, Math.round(walkDuration / 200));
+      const frameDuration = Math.max(140, Math.round(walkDuration / totalFrameSteps));
+      let frameIndex = 0;
+      const frameTimer = window.setInterval(() => {
+        frameIndex = (frameIndex + 1) % walkFrames.length;
+        walkAvatar.src = leoAsset(walkFrames[frameIndex]);
+      }, frameDuration);
+
+      const endHandler = (event) => {
+        if (event.animationName !== "leoCardWalk" && event.animationName !== "leoCardWalkMobile") return;
+        window.clearInterval(frameTimer);
+        walkAvatar.src = idle4Src;
+        walkTrack.removeEventListener("animationend", endHandler);
+        const settleTimer = window.setTimeout(() => {
+          walkAvatar.src = happySrc;
+          cardWalkState.delete(card);
+        }, 950);
+        cardWalkState.set(card, { settleTimer });
+      };
+      walkTrack.addEventListener("animationend", endHandler);
+
+      cardWalkState.set(card, { frameTimer, endHandler });
+    }
+
+    function activateServiceCard(targetCard, options = {}) {
+      if (!targetCard) return;
+      const shouldScroll = options.scroll !== false;
+      const contextKey = options.contextKey || targetCard.dataset.serviceGroup || "";
+      serviceCards.forEach((card) => {
+        card.classList.remove("is-highlighted", "is-open", "is-active");
+        card.setAttribute("aria-expanded", "false");
+        stopServiceCardWalk(card);
+        hideServiceCardContext(card);
+      });
+      // Force a reflow so Leo's entrance animation reliably restarts on repeated selections.
+      void targetCard.offsetWidth;
+      targetCard.classList.add("is-open", "is-active");
+      targetCard.setAttribute("aria-expanded", "true");
+      startServiceCardWalk(targetCard);
+      showServiceCardContext(targetCard, contextKey);
+      if (options.highlight) {
+        targetCard.classList.add("is-highlighted");
+      }
+      if (shouldScroll) {
+        targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+
+    function startGuideReactionFlow({ reactionMessage = defaultGuideReactionMessage, targetKey, contextKey, onArrive }) {
+      clearLeoGuideTimers();
+      guide.classList.add("is-talking");
+      setGuideFrame(excitedSrc);
+      showGuideReaction(reactionMessage);
+
+      stateTimer = window.setTimeout(() => {
+        hideGuideReaction();
+        if (targetKey) {
+          highlightServiceGroup(targetKey, contextKey || targetKey);
+        }
+        onArrive?.();
+        setGuideFrame(idle4Src);
+        stateTimer = window.setTimeout(() => {
+          enterHappyState();
+        }, 950);
+      }, guideReactionDelay);
+    }
+
+    function highlightServiceGroup(targetKey, contextKey) {
+      if (!isServicesOverview || !targetKey) return;
+      const targetCard = document.querySelector(`[data-service-group="${targetKey}"]`);
+      if (!targetCard) return;
+      activateServiceCard(targetCard, { highlight: true, contextKey });
+      window.clearTimeout(highlightTimer);
+      highlightTimer = window.setTimeout(() => {
+        targetCard.classList.remove("is-highlighted");
+      }, 2200);
+    }
+
+    if (isServicesOverview && serviceCards.length) {
+      serviceCards.forEach((card) => {
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("role", "button");
+        card.setAttribute("aria-expanded", "false");
+        card.addEventListener("click", (event) => {
+          const target = event.target;
+          if (target instanceof Element && target.closest("a")) return;
+          activateServiceCard(card, { scroll: false });
+        });
+        card.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          activateServiceCard(card, { scroll: false });
+        });
+      });
+
+      // Temporary visible confirmation state: first grouped card opens on load.
+      activateServiceCard(serviceCards[0], { scroll: false });
+    }
+
+    chips.forEach((chip) => {
+      chip.setAttribute("aria-pressed", "false");
+      chip.addEventListener("click", () => {
+        const selectedLabel = chip.dataset.serviceChoice || chip.textContent?.trim();
+        const nextState = selectedLabel ? servicesGuideMap.get(selectedLabel) : null;
+        if (!selectedLabel || !nextState) return;
+        setActiveChip(selectedLabel);
+        startGuideReactionFlow({
+          reactionMessage: nextState.reactionMessage || defaultGuideReactionMessage,
+          targetKey: nextState.target,
+          contextKey: nextState.target,
+          onArrive: () => {
+            renderServiceActions(nextState.actions);
+          }
+        });
+      });
+      chip.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        chip.click();
+      });
+    });
+
+    actions.addEventListener("click", (event) => {
+      const actionLink = event.target instanceof Element ? event.target.closest(".leo-page-guide__action") : null;
+      if (!actionLink || !(actionLink instanceof HTMLAnchorElement)) return;
+      const guidedTarget = actionLink.dataset.guidedTarget;
+      if (!guidedTarget) return;
+      event.preventDefault();
+      startGuideReactionFlow({
+        reactionMessage: actionLink.dataset.guidedMessage || defaultGuideReactionMessage,
+        targetKey: guidedTarget,
+        contextKey: actionLink.dataset.guidedContext || guidedTarget
+      });
+    });
+
+    actions.addEventListener("keydown", (event) => {
+      const actionLink = event.target instanceof Element ? event.target.closest(".leo-page-guide__action") : null;
+      if (!actionLink || !(actionLink instanceof HTMLAnchorElement)) return;
+      if (event.key !== " ") return;
+      event.preventDefault();
+      actionLink.click();
+    });
+  }
+}
+
 function initIntroOverlay() {
   const intro = document.querySelector("[data-intro-screen]");
-  if (!intro || document.body.dataset.page !== "home") return;
+
+  function markIntroDone() {
+    document.body.classList.remove("intro-active");
+    document.body.classList.add("intro-done");
+  }
+
+  if (!intro || document.body.dataset.page !== "home") {
+    markIntroDone();
+    return;
+  }
   const image = intro.querySelector(".intro-screen__emblem");
   const storageKey = "lioncodexIntroSeen";
+
+  function notifyIntroFinished() {
+    markIntroDone();
+    window.dispatchEvent(new CustomEvent("lioncodex:intro-finished"));
+  }
 
   try {
     if (window.sessionStorage.getItem(storageKey) === "true") {
       intro.remove();
+      notifyIntroFinished();
       return;
     }
   } catch (error) {
@@ -188,6 +872,7 @@ function initIntroOverlay() {
       window.setTimeout(() => {
         intro.remove();
         document.body.classList.remove("is-intro-active");
+        notifyIntroFinished();
       }, closeDuration);
     }, visibleFor);
   }
@@ -382,270 +1067,493 @@ function initCodeRain() {
   }
 }
 
-function initLeoHost() {
-  const page = document.body.dataset.page;
-  const leo = document.createElement("div");
-  const positionKey = "lioncodexLeoPosition";
-  const compactClass = "is-compact";
-  const heroClass = "is-hero-mode";
-  const greetedClass = "has-greeted";
-  const openClass = "is-open";
+function initStaticHeroAssistantDrag() {
+  if (document.body.dataset.page !== "home") return;
 
-  leo.className = "leo-host";
-  leo.setAttribute("data-leo-host", "");
-  leo.innerHTML = `
-    <div class="leo-greeting" role="status" aria-live="polite">
-      <span class="leo-greeting__eyebrow">Leo Host</span>
-      <p>Γεια, είμαι ο Leo.<br />Ο AI host της LionCodeX.<br />Θες να σε βοηθήσω να βρεις τη σωστή λύση;</p>
-    </div>
-    <div class="leo-panel" hidden>
-      <div class="leo-panel__header">
-        <div>
-          <span class="leo-panel__eyebrow">Leo AI Concierge</span>
-          <h2>Ο premium host της LionCodeX για γρήγορη καθοδήγηση.</h2>
-        </div>
-        <button class="leo-panel__close" type="button" aria-label="Κλείσιμο Leo">×</button>
-      </div>
-      <p>Ο Leo σας κατευθύνει γρήγορα σε υπηρεσίες, AI λύσεις ή στρατηγικό ραντεβού, χωρίς να χάνετε το flow της σελίδας.</p>
-      <div class="leo-panel__actions">
-        <a class="btn btn-primary" href="${relativePath("contact.html")}">Μιλήστε με τη LionCodeX</a>
-        <a class="btn btn-secondary" href="${relativePath("ai-solutions.html")}">AI Solutions</a>
-        <a class="btn btn-secondary" href="${relativePath("services.html")}">Υπηρεσίες</a>
-      </div>
-    </div>
-    <button class="leo-trigger" type="button" aria-expanded="false" aria-label="Άνοιγμα Leo host panel">
-      <span class="leo-trigger__avatar" aria-hidden="true">
-        <img src="${relativePath("assets/media/lion-emblem.png")}?v=2" alt="" />
-      </span>
-      <span class="leo-trigger__copy">
-        <strong>Leo</strong>
-        <span>AI host της LionCodeX</span>
-      </span>
-    </button>
-  `;
+  const hero = document.querySelector(".hero");
+  const assistant = document.querySelector(".hero-assistant");
+  const popout = document.querySelector(".hero-leo-popout");
+  const handle = popout?.querySelector(".leo-mascot");
+  const card = document.querySelector(".leo-chat-card");
+  const mascotImage = handle?.querySelector("img");
+  const messageThread = document.querySelector(".leo-chat-card__message");
+  const chips = Array.from(document.querySelectorAll(".leo-chat-card__chip"));
+  const actionWrap = document.querySelector(".leo-chat-card__actions");
+  if (!hero || !assistant || !popout || !handle || !card || !mascotImage || !messageThread || !actionWrap) return;
 
-  document.body.append(leo);
-
-  const greeting = leo.querySelector(".leo-greeting");
-  const trigger = leo.querySelector(".leo-trigger");
-  const panel = leo.querySelector(".leo-panel");
-  const closeButton = leo.querySelector(".leo-panel__close");
-  let suppressClick = false;
   let pointerId = null;
-  let originX = 0;
-  let originY = 0;
-  let originLeft = 0;
-  let originTop = 0;
-  let currentLeft = 0;
-  let currentTop = 0;
-  let hasMoved = false;
-  let isDragging = false;
+  let startX = 0;
+  let startY = 0;
+  let startRight = 0;
+  let startTop = 0;
+  let dragMoved = false;
+  let dragPositionPrimed = false;
+  const openClass = "is-open";
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const leoBasePath = relativePath("assets/Leo");
+  const defaultLeoFrames = [
+    "Leo-peek-idle.png",
+    "Leo-peek-wave.png",
+    "Leo-idle1.png",
+    "Leo-happy1.png",
+    "Leo-wave1.png",
+    "Leo-wave2.png",
+    "Leo-talk1.png",
+    "Leo-talk2.png",
+    "Leo-talk3.png",
+    "Leo-talk4.png",
+    "Leo-excited.png"
+  ];
+  const leoStates = {
+    idle: ["Leo-idle1.png", "Leo-happy1.png"],
+    wave: ["Leo-wave1.png", "Leo-wave2.png"],
+    talk: ["Leo-talk1.png", "Leo-talk2.png", "Leo-talk3.png", "Leo-talk4.png"],
+    excited: ["Leo-excited.png"]
+  };
+  const peekIdleLeoImage = `${leoBasePath}/Leo-peek-idle.png`;
+  const peekWaveLeoImage = `${leoBasePath}/Leo-peek-wave.png`;
+  const idle1LeoImage = `${leoBasePath}/Leo-idle1.png`;
+  const happy1LeoImage = `${leoBasePath}/Leo-happy1.png`;
+  const fallbackLeoImage = happy1LeoImage;
+  const idle2LeoImage = idle1LeoImage;
+  const idle4LeoImage = happy1LeoImage;
+  const initialLeoGreeting =
+    "Γεια! Είμαι ο Leo.<br />Μπορώ να σε βοηθήσω να βρεις ποια ψηφιακή λύση ταιριάζει καλύτερα στην επιχείρησή σου.";
+  let mascotState = "idle";
+  let idleFrameIndex = 0;
+  let currentMascotSrc = peekIdleLeoImage;
+  let restingMascotSrc = happy1LeoImage;
+  let isHoveringLeo = false;
+  let stateTimeout = 0;
+  let frameTimer = 0;
+  let initialTalkPlayed = false;
 
-  function loadSavedPosition() {
-    try {
-      const raw = window.localStorage.getItem(positionKey);
-      if (!raw) return null;
-      const parsed = JSON.parse(raw);
-      if (typeof parsed?.left !== "number" || typeof parsed?.top !== "number") return null;
-      return parsed;
-    } catch (error) {
-      return null;
+  function isDesktop() {
+    return window.innerWidth > 960;
+  }
+
+  function leoAsset(filename) {
+    return `${leoBasePath}/${filename}`;
+  }
+
+  [...new Set([...defaultLeoFrames, ...Object.values(leoStates).flat()])].forEach((filename) => {
+    const image = new Image();
+    image.src = leoAsset(filename);
+  });
+
+  function setMascotFrame(src) {
+    currentMascotSrc = src || fallbackLeoImage;
+    mascotImage.src = currentMascotSrc;
+  }
+
+  function scrollMessageThreadToBottom() {
+    messageThread.scrollTop = messageThread.scrollHeight;
+  }
+
+  function pushMessage(role, html) {
+    const entry = document.createElement("div");
+    entry.className = `leo-chat-card__entry leo-chat-card__entry--${role}`;
+    entry.innerHTML = `<p>${html}</p>`;
+    messageThread.append(entry);
+    scrollMessageThreadToBottom();
+  }
+
+  function resetMessageThread() {
+    messageThread.innerHTML = "";
+    pushMessage("leo", initialLeoGreeting);
+    actionWrap.innerHTML = "";
+  }
+
+  mascotImage.addEventListener("error", () => {
+    const fallbackIndex = defaultLeoFrames.findIndex((filename) => mascotImage.src.endsWith(filename));
+    const nextFallback = defaultLeoFrames[fallbackIndex + 1];
+    if (nextFallback) {
+      setMascotFrame(leoAsset(nextFallback));
+      return;
     }
-  }
-
-  function savePosition(left, top) {
-    try {
-      window.localStorage.setItem(positionKey, JSON.stringify({ left, top }));
-    } catch (error) {
-      // Ignore storage write failures.
+    if (mascotImage.src !== fallbackLeoImage) {
+      setMascotFrame(fallbackLeoImage);
     }
+  });
+
+  function clearLeoTimers() {
+    window.clearTimeout(stateTimeout);
+    window.clearTimeout(frameTimer);
+    stateTimeout = 0;
+    frameTimer = 0;
+    mascotImage.classList.remove("is-popping");
   }
 
-  function clampPosition(left, top) {
-    const margin = 12;
-    const rect = leo.getBoundingClientRect();
-    const maxLeft = Math.max(margin, window.innerWidth - rect.width - margin);
-    const maxTop = Math.max(margin, window.innerHeight - rect.height - margin);
-    return {
-      left: Math.min(Math.max(margin, left), maxLeft),
-      top: Math.min(Math.max(margin, top), maxTop)
+  function setRestingMascot(src) {
+    restingMascotSrc = src;
+  }
+
+  function enterIdleState() {
+    mascotState = "idle";
+    idleFrameIndex = 0;
+    setMascotFrame(restingMascotSrc);
+  }
+
+  function enterIdle2State() {
+    mascotState = "idle";
+    idleFrameIndex = 0;
+    setRestingMascot(idle2LeoImage);
+    setMascotFrame(idle2LeoImage);
+  }
+
+  function enterHappyRestingState() {
+    mascotState = "idle";
+    idleFrameIndex = 0;
+    setRestingMascot(happy1LeoImage);
+    setMascotFrame(happy1LeoImage);
+  }
+
+  function playFrameSequence(frames, frameDuration, onComplete) {
+    let frameIndex = 0;
+    const tick = () => {
+      setMascotFrame(leoAsset(frames[frameIndex]));
+      frameIndex += 1;
+      if (frameIndex >= frames.length) {
+        onComplete?.();
+        return;
+      }
+      frameTimer = window.setTimeout(tick, frameDuration);
     };
+    tick();
   }
 
-  function applyPosition(left, top, persist = false) {
-    const next = clampPosition(left, top);
-    currentLeft = next.left;
-    currentTop = next.top;
-    leo.style.right = "auto";
-    leo.style.bottom = "auto";
-    leo.style.left = `${next.left}px`;
-    leo.style.top = `${next.top}px`;
-    if (persist) savePosition(next.left, next.top);
-    updatePanelAlignment();
-  }
+  function playLeoState(state, totalDuration) {
+    const frames = leoStates[state];
+    if (!frames?.length) {
+      enterIdleState();
+      return;
+    }
 
-  function getFloatingDefaultPosition() {
-    const margin = 24;
-    const rect = leo.getBoundingClientRect();
-    return {
-      left: Math.max(margin, window.innerWidth - rect.width - margin),
-      top: Math.max(margin, window.innerHeight - rect.height - margin)
-    };
-  }
+    clearLeoTimers();
+    mascotState = state;
+    const frameDuration = Math.max(120, Math.round(totalDuration / frames.length));
 
-  function getHeroDefaultPosition() {
-    const hero = document.querySelector(".hero");
-    const fallback = getFloatingDefaultPosition();
-    if (!hero) return fallback;
-    const heroRect = hero.getBoundingClientRect();
-    const rect = leo.getBoundingClientRect();
-    return clampPosition(
-      Math.min(window.innerWidth - rect.width - 28, heroRect.right - rect.width * 0.72),
-      heroRect.top + Math.max(42, heroRect.height * 0.34)
-    );
-  }
+    playFrameSequence(frames, frameDuration, () => {
+      if (state === "talk") {
+        stateTimeout = window.setTimeout(() => {
+          enterIdleState();
+        }, 160);
+        return;
+      }
 
-  function updatePanelAlignment() {
-    leo.classList.toggle("leo-host--panel-left", currentLeft < window.innerWidth * 0.42);
-  }
+      if (state === "excited") {
+        stateTimeout = window.setTimeout(() => {
+          enterIdleState();
+        }, 220);
+        return;
+      }
 
-  function dismissGreeting() {
-    leo.classList.add(greetedClass);
-  }
-
-  function setPanelOpen(isOpen) {
-    leo.classList.toggle(openClass, isOpen);
-    panel.hidden = !isOpen;
-    trigger.setAttribute("aria-expanded", String(isOpen));
-    if (isOpen) dismissGreeting();
-    requestAnimationFrame(() => applyPosition(currentLeft, currentTop, false));
-  }
-
-  function collapseHeroMode() {
-    if (!leo.classList.contains(heroClass)) return;
-    leo.classList.remove(heroClass);
-    leo.classList.add(compactClass);
-    requestAnimationFrame(() => {
-      const fallback = getFloatingDefaultPosition();
-      applyPosition(fallback.left, fallback.top, false);
+      enterIdleState();
     });
   }
 
-  const savedPosition = loadSavedPosition();
-  const startsHeroMode = page === "home" && !savedPosition;
-  leo.classList.add(startsHeroMode ? heroClass : compactClass);
+  function triggerLeoInteractionState(state) {
+    if (state === "wave") {
+      playLeoState("wave", 1400);
+      return;
+    }
+    if (state === "talk") {
+      playLeoState("talk", 1200);
+      return;
+    }
+    if (state === "excited") {
+      playLeoState("excited", 1800);
+    }
+  }
 
-  requestAnimationFrame(() => {
-    const initial = savedPosition || (startsHeroMode ? getHeroDefaultPosition() : getFloatingDefaultPosition());
-    applyPosition(initial.left, initial.top, false);
-  });
+  function playInitialLeoTalk() {
+    if (initialTalkPlayed) return;
+    initialTalkPlayed = true;
+    clearLeoTimers();
 
-  if (startsHeroMode) {
-    const handleHeroExit = () => {
-      if (window.scrollY <= 32) return;
-      collapseHeroMode();
-      window.removeEventListener("scroll", handleHeroExit);
+    if (reducedMotion.matches) {
+      setMascotFrame(idle1LeoImage);
+      stateTimeout = window.setTimeout(() => {
+        enterHappyRestingState();
+      }, 1200);
+      return;
+    }
+
+    mascotState = "wave";
+    setMascotFrame(peekIdleLeoImage);
+    // Restart the one-time pop-out animation on load.
+    void mascotImage.offsetWidth;
+    mascotImage.classList.add("is-popping");
+
+    stateTimeout = window.setTimeout(() => {
+      setMascotFrame(peekWaveLeoImage);
+      stateTimeout = window.setTimeout(() => {
+        mascotImage.classList.remove("is-popping");
+        enterIdle2State();
+        stateTimeout = window.setTimeout(() => {
+          enterHappyRestingState();
+        }, 1200);
+      }, 680);
+    }, 420);
+  }
+
+  function syncExpandedState() {
+    handle.setAttribute("aria-expanded", String(assistant.classList.contains(openClass)));
+  }
+
+  function toggleAssistant(force) {
+    assistant.classList.add(openClass);
+    syncExpandedState();
+    if (force !== false) {
+      triggerLeoInteractionState("wave");
+    }
+  }
+
+  const quickReplyMap = new Map([
+    [
+      "Θέλω περισσότερους πελάτες",
+      {
+        response:
+          "Τότε το ζητούμενο είναι μια ψηφιακή παρουσία που εμπνέει εμπιστοσύνη, εξηγεί καθαρά την αξία σου και οδηγεί τον επισκέπτη σε επικοινωνία ή αγορά.",
+        actions: [
+          { label: "Δες ιστοσελίδες", href: "services/website-development.html" },
+          { label: "Δες marketing", href: "services/digital-marketing.html" },
+          { label: "Κλείσε στρατηγικό call", href: "contact.html" }
+        ]
+      }
+    ],
+    [
+      "Θέλω online πωλήσεις",
+      {
+        response:
+          "Εδώ η σωστή βάση είναι ένα e-shop που κάνει την αγορά εύκολη, καθαρή και αξιόπιστη, χωρίς να κουράζει τον πελάτη.",
+        actions: [
+          { label: "Δες e-shops", href: "services/ecommerce.html" },
+          { label: "Δες AI για e-shop", href: "ai-solutions.html" },
+          { label: "Ζήτησε πρόταση", href: "contact.html" }
+        ]
+      }
+    ],
+    [
+      "Θέλω καλύτερη online παρουσία",
+      {
+        response:
+          "Αν η εικόνα σου online δεν σε εκπροσωπεί όπως πρέπει, ξεκινάμε από μια premium ιστοσελίδα με σωστή δομή, καθαρό μήνυμα και εμπειρία που δείχνει την αξία σου.",
+        actions: [
+          { label: "Δες websites", href: "services/website-development.html" },
+          { label: "Δες portfolio", href: "portfolio.html" },
+          { label: "Μίλησε μαζί μας", href: "contact.html" }
+        ]
+      }
+    ],
+    [
+      "Με ενδιαφέρει AI",
+      {
+        response:
+          "Η AI εμπειρία μπορεί να μετατρέψει το site σου από στατική παρουσία σε ενεργό εργαλείο καθοδήγησης, εξυπηρέτησης και συλλογής leads.",
+        actions: [
+          { label: "Δες AI Solutions", href: "ai-solutions.html" },
+          { label: "Πώς εφαρμόζεται", href: "ai-solutions.html" },
+          { label: "Θέλω demo concept", href: "contact.html" }
+        ]
+      }
+    ]
+  ]);
+
+  function renderActionLinks(actions = []) {
+    actionWrap.innerHTML = actions
+      .map(
+        (action) =>
+          `<a class="leo-chat-card__action" href="${relativePath(action.href)}">${action.label}</a>`
+      )
+      .join("");
+  }
+
+  function setActiveQuickReply(selectedLabel) {
+    chips.forEach((chip) => {
+      const isActive = chip.textContent?.trim() === selectedLabel;
+      chip.classList.toggle("is-active", isActive);
+      chip.setAttribute("aria-pressed", String(isActive));
+    });
+  }
+
+  function applyQuickReplySelection(selectedLabel) {
+    const nextState = quickReplyMap.get(selectedLabel);
+    if (!nextState) return;
+    setActiveQuickReply(selectedLabel);
+    messageThread.innerHTML = "";
+    pushMessage("user", selectedLabel);
+    pushMessage("leo", nextState.response);
+    renderActionLinks(nextState.actions);
+    triggerLeoInteractionState("talk");
+  }
+
+  handle.setAttribute("aria-controls", "hero-leo-chat-card");
+  card.id = "hero-leo-chat-card";
+  assistant.classList.add(openClass);
+  syncExpandedState();
+  chips.forEach((chip) => chip.setAttribute("aria-pressed", "false"));
+
+  function applyDesktopBase() {
+    if (!isDesktop()) {
+      assistant.style.removeProperty("right");
+      assistant.style.removeProperty("top");
+      assistant.style.removeProperty("left");
+      assistant.style.removeProperty("bottom");
+      return false;
+    }
+
+    const heroRect = hero.getBoundingClientRect();
+    const assistantRect = assistant.getBoundingClientRect();
+    const currentRight = heroRect.right - assistantRect.right;
+    const currentTop = assistantRect.top - heroRect.top;
+    assistant.style.left = "auto";
+    assistant.style.bottom = "auto";
+    assistant.style.right = `${Math.max(0, currentRight)}px`;
+    assistant.style.top = `${Math.max(0, currentTop)}px`;
+    return true;
+  }
+
+  function clampPosition(nextRight, nextTop) {
+    const heroRect = hero.getBoundingClientRect();
+    const assistantRect = assistant.getBoundingClientRect();
+    const maxRight = Math.max(16, heroRect.width - assistantRect.width);
+    const maxTop = Math.max(16, heroRect.height - assistantRect.height);
+    return {
+      right: Math.min(Math.max(16, nextRight), maxRight),
+      top: Math.min(Math.max(16, nextTop), maxTop)
     };
-    window.addEventListener("scroll", handleHeroExit, { passive: true });
   }
 
-  trigger.addEventListener("pointerdown", (event) => {
+  handle.addEventListener("pointerdown", (event) => {
+    if (!isDesktop()) return;
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+
+    event.preventDefault();
+    clearLeoTimers();
     pointerId = event.pointerId;
-    originX = event.clientX;
-    originY = event.clientY;
-    originLeft = currentLeft;
-    originTop = currentTop;
-    hasMoved = false;
-    isDragging = false;
-    suppressClick = false;
-    trigger.setPointerCapture(pointerId);
+    startX = event.clientX;
+    startY = event.clientY;
+    startRight = 0;
+    startTop = 0;
+    dragMoved = false;
+    dragPositionPrimed = false;
+    assistant.classList.add("is-dragging");
+    handle.setPointerCapture(pointerId);
   });
 
-  trigger.addEventListener("pointermove", (event) => {
+  handle.addEventListener("pointermove", (event) => {
     if (pointerId !== event.pointerId) return;
-    const deltaX = event.clientX - originX;
-    const deltaY = event.clientY - originY;
-    const distance = Math.hypot(deltaX, deltaY);
-
-    if (!hasMoved && distance > 8) {
-      hasMoved = true;
-      isDragging = true;
-      suppressClick = true;
-      collapseHeroMode();
-      leo.classList.add("is-dragging");
+    const deltaX = event.clientX - startX;
+    const deltaY = event.clientY - startY;
+    if (!dragMoved && Math.hypot(deltaX, deltaY) > 6) {
+      dragMoved = true;
+      if (!applyDesktopBase()) return;
+      startRight = parseFloat(assistant.style.right) || 0;
+      startTop = parseFloat(assistant.style.top) || 0;
+      dragPositionPrimed = true;
     }
-
-    if (!isDragging) return;
-    applyPosition(originLeft + deltaX, originTop + deltaY, false);
+    if (!dragPositionPrimed) return;
+    const clamped = clampPosition(startRight - deltaX, startTop + deltaY);
+    assistant.style.right = `${clamped.right}px`;
+    assistant.style.top = `${clamped.top}px`;
   });
 
-  function finishPointer(event) {
+  function stopDrag(event, allowToggle = true) {
     if (pointerId !== event.pointerId) return;
-    if (trigger.hasPointerCapture(pointerId)) {
-      trigger.releasePointerCapture(pointerId);
+    if (handle.hasPointerCapture(pointerId)) {
+      handle.releasePointerCapture(pointerId);
     }
-    if (isDragging) {
-      savePosition(currentLeft, currentTop);
-      leo.classList.remove("is-dragging");
-      dismissGreeting();
-      window.setTimeout(() => {
-        suppressClick = false;
-      }, 180);
-    }
+    const shouldToggle = allowToggle && !dragMoved;
     pointerId = null;
-    isDragging = false;
+    assistant.classList.remove("is-dragging");
+    dragMoved = false;
+    dragPositionPrimed = false;
+    if (shouldToggle) {
+      toggleAssistant(true);
+      return;
+    }
+    if (!isHoveringLeo && !reducedMotion.matches) {
+      enterIdleState();
+    }
   }
 
-  trigger.addEventListener("pointerup", finishPointer);
-  trigger.addEventListener("pointercancel", finishPointer);
-
-  trigger.addEventListener("click", (event) => {
-    if (suppressClick) {
+  handle.addEventListener("pointerup", (event) => stopDrag(event, true));
+  handle.addEventListener("pointercancel", (event) => stopDrag(event, false));
+  handle.addEventListener("click", (event) => {
+    if (isDesktop()) {
       event.preventDefault();
-      event.stopPropagation();
       return;
     }
-    if (leo.classList.contains(heroClass)) {
-      collapseHeroMode();
-    }
-    setPanelOpen(!leo.classList.contains(openClass));
+    toggleAssistant(true);
   });
-
-  closeButton.addEventListener("click", () => setPanelOpen(false));
-  greeting?.addEventListener("click", () => {
-    if (leo.classList.contains(heroClass)) {
-      collapseHeroMode();
-    }
-    setPanelOpen(true);
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const selectedLabel = chip.textContent?.trim();
+      if (!selectedLabel) return;
+      applyQuickReplySelection(selectedLabel);
+    });
   });
-
-  document.addEventListener("pointerdown", (event) => {
-    if (!leo.contains(event.target)) {
-      setPanelOpen(false);
-    }
+  handle.addEventListener("pointerenter", () => {
+    isHoveringLeo = true;
+    clearLeoTimers();
+    mascotState = "hover";
+    setMascotFrame(idle4LeoImage);
   });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      setPanelOpen(false);
-    }
+  handle.addEventListener("pointerleave", () => {
+    isHoveringLeo = false;
+    enterIdleState();
   });
-
   window.addEventListener("resize", () => {
-    if (leo.classList.contains(heroClass)) {
-      const next = getHeroDefaultPosition();
-      applyPosition(next.left, next.top, false);
+    if (!isDesktop()) {
+      assistant.classList.remove("is-dragging");
+      assistant.style.removeProperty("right");
+      assistant.style.removeProperty("top");
+      assistant.style.removeProperty("left");
+      assistant.style.removeProperty("bottom");
       return;
     }
-    applyPosition(currentLeft, currentTop, false);
+    applyDesktopBase();
   });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      clearLeoTimers();
+      return;
+    }
+    if (reducedMotion.matches) {
+      setMascotFrame(fallbackLeoImage);
+      return;
+    }
+    enterIdleState();
+  });
+
+  if (reducedMotion.matches) {
+    setRestingMascot(fallbackLeoImage);
+    setMascotFrame(fallbackLeoImage);
+  } else {
+    enterHappyRestingState();
+  }
+  resetMessageThread();
+
+  if (document.body.classList.contains("intro-active")) {
+    window.addEventListener(
+      "lioncodex:intro-finished",
+      () => {
+        playInitialLeoTalk();
+      },
+      { once: true }
+    );
+  } else {
+    playInitialLeoTalk();
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   renderHeader();
   renderFooter();
+  initPageLeoGuide();
   initIntroOverlay();
-  initLeoHost();
+  initStaticHeroAssistantDrag();
   initCodeRain();
   initReveal();
   initPortfolioFilters();
