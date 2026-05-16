@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="image" href="assets/media/Lion Company logo.png" />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="leo-puppet-export/leo-puppet.css" />
     <link rel="stylesheet" href="assets/css/styles.css" />
     <script defer src="assets/js/site.js"></script>
   </head>
@@ -64,6 +65,31 @@
               </div>
             </div>
           </div>
+          <section class="leo-puppet-test hero-leo-puppet-test" aria-label="Leo Puppet Animation Test" data-reveal>
+            <div class="leo-puppet-test-copy">
+              <p class="leo-kicker">Temporary test</p>
+              <h2>Leo Puppet Animation Test</h2>
+            </div>
+
+            <div class="leo-puppet-shell">
+              <div class="leo-puppet leo-idle" data-leo-puppet aria-hidden="true">
+                <img class="leo-part leo-part-body" src="leo-puppet-export/assets/body base clean.png" alt="" />
+                <img class="leo-part leo-part-tail" src="leo-puppet-export/assets/tail-2.png" alt="" />
+                <img class="leo-part leo-part-ear-left" src="leo-puppet-export/assets/left ear.png" alt="" />
+                <img class="leo-part leo-part-ear-right" src="leo-puppet-export/assets/right ear.png" alt="" />
+                <img class="leo-part leo-part-eye-left" src="leo-puppet-export/assets/left eye.png" alt="" />
+                <img class="leo-part leo-part-eye-right" src="leo-puppet-export/assets/right eye.png" alt="" />
+                <img class="leo-part leo-part-mouth" src="leo-puppet-export/assets/mouth-2.png" alt="" />
+              </div>
+
+              <div class="leo-puppet-controls" aria-label="Leo puppet states">
+                <button type="button" data-leo-puppet-state="leo-idle">Idle</button>
+                <button type="button" data-leo-puppet-state="leo-happy">Happy</button>
+                <button type="button" data-leo-puppet-state="leo-talking">Talk</button>
+                <button type="button" data-leo-puppet-state="leo-wave">Wave</button>
+              </div>
+            </div>
+          </section>
           <div class="hero-bubble-row" data-reveal>
             <div class="hero-assistant is-open">
               <div class="leo-chat-card">
@@ -308,5 +334,6 @@
     </main>
 
     <div data-site-footer></div>
+    <script src="leo-puppet-export/leo-puppet.js"></script>
   </body>
 </html>

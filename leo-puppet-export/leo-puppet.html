@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leo Puppet</title>
+    <link rel="stylesheet" href="leo-puppet.css" />
+  </head>
+  <body>
+    <main class="leo-demo-page">
+      <section class="leo-puppet-test" aria-label="Leo Puppet Animation Test">
+        <div class="leo-puppet-test-copy">
+          <p class="leo-kicker">Temporary test</p>
+          <h1>Leo Puppet Animation Test</h1>
+        </div>
+
+        <div class="leo-puppet-shell">
+          <div class="leo-puppet leo-idle" data-leo-puppet aria-hidden="true">
+            <img class="leo-part leo-part-body" src="assets/body base clean.png" alt="" />
+            <img class="leo-part leo-part-tail" src="assets/tail-2.png" alt="" />
+            <img class="leo-part leo-part-ear-left" src="assets/left ear.png" alt="" />
+            <img class="leo-part leo-part-ear-right" src="assets/right ear.png" alt="" />
+            <img class="leo-part leo-part-eye-left" src="assets/left eye.png" alt="" />
+            <img class="leo-part leo-part-eye-right" src="assets/right eye.png" alt="" />
+            <img class="leo-part leo-part-mouth" src="assets/mouth-2.png" alt="" />
+          </div>
+
+          <div class="leo-puppet-controls" aria-label="Leo puppet states">
+            <button type="button" data-leo-puppet-state="leo-idle">Idle</button>
+            <button type="button" data-leo-puppet-state="leo-happy">Happy</button>
+            <button type="button" data-leo-puppet-state="leo-talking">Talk</button>
+            <button type="button" data-leo-puppet-state="leo-wave">Wave</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="leo-puppet.js"></script>
+  </body>
+</html>

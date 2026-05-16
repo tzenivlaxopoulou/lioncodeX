@@ -1142,8 +1142,9 @@ body[data-page="home"] .hero .container {
 
 body[data-page="home"] .hero-shell {
   display: grid;
-  grid-template-columns: 1fr;
-  justify-items: center;
+  grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+  align-items: center;
+  justify-items: stretch;
   align-content: center;
   gap: clamp(20px, 2.6vw, 30px);
   min-height: calc(100vh - var(--nav-h) - 7.2rem);
@@ -1152,20 +1153,20 @@ body[data-page="home"] .hero-shell {
 body[data-page="home"] .hero-main {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 body[data-page="home"] .hero .hero-copy {
   position: relative;
   z-index: 2;
   max-width: 900px;
-  text-align: center;
+  text-align: left;
   padding: 0;
   margin-top: -56px;
 }
 
 body[data-page="home"] .hero .hero-copy .eyebrow {
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 1.2rem;
 }
 
@@ -1178,9 +1179,8 @@ body[data-page="home"] .hero .hero-copy h1 {
   font-size: clamp(2.3rem, 3vw, 4.05rem);
   line-height: 1.06;
   max-width: none;
-  width: fit-content;
-  margin-inline: auto;
-  white-space: nowrap;
+  margin-inline: 0;
+  white-space: normal;
 }
 
 body[data-page="home"] .hero .hero-copy .lead-accent {
@@ -1190,20 +1190,20 @@ body[data-page="home"] .hero .hero-copy .lead-accent {
 
 body[data-page="home"] .hero .hero-copy p {
   max-width: 56ch;
-  margin: 1.1rem auto 0;
+  margin: 1.1rem 0 0;
   font-size: 1.02rem;
   color: rgba(236, 239, 243, 0.86);
 }
 
 body[data-page="home"] .hero .hero-copy .btn-row {
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 1.55rem;
 }
 
 body[data-page="home"] .hero-value-points {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.8rem 1.25rem;
   margin-top: 1.45rem;
 }
@@ -1222,10 +1222,52 @@ body[data-page="home"] .hero-value-point strong {
 }
 
 body[data-page="home"] .hero-bubble-row {
+  grid-column: 1 / -1;
   width: 100%;
   display: flex;
   justify-content: center;
   margin-top: 0.25rem;
+}
+
+body[data-page="home"] .hero-leo-puppet-test {
+  justify-self: end;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: min(100%, 520px);
+  min-height: 420px;
+  padding: 0 !important;
+  overflow: visible;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+body[data-page="home"] .hero-leo-puppet-test .leo-puppet-test-copy,
+body[data-page="home"] .hero-leo-puppet-test .leo-puppet-controls {
+  display: none;
+}
+
+body[data-page="home"] .hero-leo-puppet-test .leo-puppet-shell {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  min-height: 420px;
+  padding: 0 !important;
+  margin: 0;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+body[data-page="home"] .hero-leo-puppet-test .leo-puppet {
+  transform: scale(0.78);
+  transform-origin: center top;
+  margin: 0 0 -72px;
+  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.35));
 }
 
 body[data-page="home"] .hero-assistant {
@@ -1568,13 +1610,24 @@ body[data-page="home"] .leo-mascot img.is-popping {
   }
 
   body[data-page="home"] .hero-shell {
+    grid-template-columns: 1fr;
+    justify-items: center;
     gap: 2.4rem;
     min-height: auto;
   }
 
+  body[data-page="home"] .hero-main {
+    justify-content: center;
+  }
+
   body[data-page="home"] .hero .hero-copy {
     max-width: 100%;
+    text-align: center;
     margin-top: 0;
+  }
+
+  body[data-page="home"] .hero .hero-copy .eyebrow {
+    justify-content: center;
   }
 
   body[data-page="home"] .hero .hero-copy h1 {
@@ -1586,11 +1639,27 @@ body[data-page="home"] .leo-mascot img.is-popping {
 
   body[data-page="home"] .hero .hero-copy p {
     max-width: 100%;
+    margin-inline: auto;
   }
 
   body[data-page="home"] .hero .hero-copy .btn-row,
   body[data-page="home"] .hero-value-points {
-    justify-content: flex-start;
+    justify-content: center;
+  }
+
+  body[data-page="home"] .hero-leo-puppet-test {
+    justify-self: center;
+    width: min(100%, 500px);
+    min-height: 340px;
+  }
+
+  body[data-page="home"] .hero-leo-puppet-test .leo-puppet-shell {
+    min-height: 340px;
+  }
+
+  body[data-page="home"] .hero-leo-puppet-test .leo-puppet {
+    transform: scale(0.72);
+    margin-bottom: -100px;
   }
 
   body[data-page="home"] .hero-assistant {
@@ -1663,6 +1732,19 @@ body[data-page="home"] .leo-mascot img.is-popping {
 
   body[data-page="home"] .hero-value-points {
     gap: 0.7rem;
+  }
+
+  body[data-page="home"] .hero-leo-puppet-test {
+    min-height: 300px;
+  }
+
+  body[data-page="home"] .hero-leo-puppet-test .leo-puppet {
+    transform: scale(0.7);
+    margin-bottom: -118px;
+  }
+
+  body[data-page="home"] .hero-leo-puppet-test .leo-puppet-shell {
+    min-height: 300px;
   }
 }
 
