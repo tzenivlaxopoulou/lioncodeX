@@ -161,6 +161,218 @@ background: transparent;
   transform-origin: center;
 }
 
+.leo-part-sleep {
+  display: none;
+}
+
+.leo-part-excited {
+  display: none;
+}
+
+.leo-puppet.leo-sleep {
+  --leo-body-x: 155px;
+--leo-body-y: 105px;
+--leo-body-width: 230px;
+--leo-left-ear-x: 176px;
+--leo-left-ear-y: 140px;
+--leo-left-ear-width: 26px;
+--leo-right-ear-x: 290px;
+--leo-right-ear-y: 150px;
+--leo-right-ear-width: 31px;
+--leo-left-eye-x: 198px;
+--leo-left-eye-y: 165px;
+--leo-left-eye-width: 26px;
+--leo-right-eye-x: 240px;
+--leo-right-eye-y: 168px;
+--leo-right-eye-width: 30px;
+--leo-mouth-x: 200px;
+--leo-mouth-y: 208px;
+--leo-mouth-width: 50px;
+}
+
+.leo-puppet.leo-excited {
+  --leo-body-x: -40px;
+--leo-body-y: -35px;
+--leo-body-width: 560px;
+--leo-tail-x: 295px;
+--leo-tail-y: 298px;
+--leo-tail-width: 52px;
+--leo-left-ear-x: 140px;
+--leo-left-ear-y: 100px;
+--leo-left-ear-width: 40px;
+--leo-right-ear-x: 282px;
+--leo-right-ear-y: 102px;
+--leo-right-ear-width: 42px;
+--leo-left-eye-x: 184px;
+--leo-left-eye-y: 138px;
+--leo-left-eye-width: 34px;
+--leo-right-eye-x: 252px;
+--leo-right-eye-y: 138px;
+--leo-right-eye-width: 34px;
+--leo-mouth-x: 208px;
+--leo-mouth-y: 188px;
+--leo-mouth-width: 56px;
+--leo-left-paw-x: 118px;
+--leo-left-paw-y: 222px;
+--leo-left-paw-width: 47px;
+--leo-right-paw-x: 320px;
+--leo-right-paw-y: 226px;
+--leo-right-paw-width: 36px;
+}
+
+.leo-puppet.leo-sleep .leo-part:not(.leo-part-sleep) {
+  display: none;
+}
+
+.leo-puppet.leo-sleep .leo-part-sleep {
+  display: block;
+}
+
+.leo-puppet.leo-excited .leo-part:not(.leo-part-excited) {
+  display: none;
+}
+
+.leo-puppet.leo-excited .leo-part-excited {
+  display: block;
+}
+
+.leo-part-body-sleep {
+  left: var(--leo-body-x);
+  top: var(--leo-body-y);
+  z-index: 1;
+  width: var(--leo-body-width);
+  transform-origin: center bottom;
+  animation: leoPuppetSleepBreath 7.2s ease-in-out infinite;
+}
+
+.leo-part-ear-left-sleep {
+  left: var(--leo-left-ear-x);
+  top: var(--leo-left-ear-y);
+  z-index: 3;
+  width: var(--leo-left-ear-width);
+  transform-origin: 70% 88%;
+}
+
+.leo-part-ear-right-sleep {
+  left: var(--leo-right-ear-x);
+  top: var(--leo-right-ear-y);
+  z-index: 4;
+  width: var(--leo-right-ear-width);
+  transform-origin: 30% 88%;
+}
+
+.leo-part-eye-left-sleep {
+  left: var(--leo-left-eye-x);
+  top: var(--leo-left-eye-y);
+  z-index: 5;
+  width: var(--leo-left-eye-width);
+  transform-origin: center 55%;
+}
+
+.leo-part-eye-right-sleep {
+  left: var(--leo-right-eye-x);
+  top: var(--leo-right-eye-y);
+  z-index: 6;
+  width: var(--leo-right-eye-width);
+  transform-origin: center 55%;
+}
+
+.leo-part-mouth-sleep {
+  left: var(--leo-mouth-x);
+  top: var(--leo-mouth-y);
+  z-index: 7;
+  width: var(--leo-mouth-width);
+  transform-origin: center;
+}
+
+.leo-part-body-excited {
+  left: var(--leo-body-x);
+  top: var(--leo-body-y);
+  z-index: 1;
+  width: var(--leo-body-width);
+  transform-origin: center bottom;
+  animation:
+    leoPuppetBodyBreath 6.5s ease-in-out infinite,
+    leoPuppetHappyLift 1.2s ease both;
+}
+
+.leo-part-tail-excited {
+  left: var(--leo-tail-x);
+  top: var(--leo-tail-y);
+  z-index: 2;
+  width: var(--leo-tail-width);
+  transform-origin: 28% 82%;
+  animation: leoPuppetTailWag 4.2s ease-in-out infinite;
+}
+
+.leo-part-ear-left-excited {
+  left: var(--leo-left-ear-x);
+  top: var(--leo-left-ear-y);
+  z-index: 3;
+  width: var(--leo-left-ear-width);
+  transform-origin: 70% 88%;
+  animation: leoPuppetEarTwitch 7.6s ease-in-out infinite;
+}
+
+.leo-part-ear-right-excited {
+  left: var(--leo-right-ear-x);
+  top: var(--leo-right-ear-y);
+  z-index: 4;
+  width: var(--leo-right-ear-width);
+  transform-origin: 30% 88%;
+  animation: leoPuppetEarTwitch 7.8s ease-in-out infinite 0.7s;
+}
+
+.leo-part-eye-left-excited {
+  left: var(--leo-left-eye-x);
+  top: var(--leo-left-eye-y);
+  z-index: 5;
+  width: var(--leo-left-eye-width);
+  transform-origin: center 55%;
+  animation: leoPuppetBlink 5.4s ease-in-out infinite;
+}
+
+.leo-part-eye-right-excited {
+  left: var(--leo-right-eye-x);
+  top: var(--leo-right-eye-y);
+  z-index: 6;
+  width: var(--leo-right-eye-width);
+  transform-origin: center 55%;
+  animation: leoPuppetBlink 5.4s ease-in-out infinite 0.05s;
+}
+
+.leo-part-mouth-excited {
+  left: var(--leo-mouth-x);
+  top: var(--leo-mouth-y);
+  z-index: 7;
+  width: var(--leo-mouth-width);
+  transform-origin: center;
+}
+
+.leo-part-paw-left-excited {
+  left: var(--leo-left-paw-x);
+  top: var(--leo-left-paw-y);
+  z-index: 8;
+  width: var(--leo-left-paw-width);
+  transform-origin: center 80%;
+  animation: leoPuppetWaveHint 1.3s ease-in-out infinite;
+}
+
+.leo-part-paw-right-excited {
+  left: var(--leo-right-paw-x);
+  top: var(--leo-right-paw-y);
+  z-index: 8;
+  width: var(--leo-right-paw-width);
+  transform-origin: center 80%;
+  animation: leoPuppetWaveHint 1.3s ease-in-out infinite 0.18s;
+}
+
+.leo-puppet.leo-sleep .leo-part-eye-left,
+.leo-puppet.leo-sleep .leo-part-eye-right,
+.leo-puppet.leo-sleep .leo-part-mouth {
+  animation: none;
+}
+
 .leo-puppet.leo-happy .leo-part-body,
 .leo-puppet.leo-wave .leo-part-body {
   animation:
@@ -254,6 +466,16 @@ background: transparent;
   }
   50% {
     transform: scaleY(0.72);
+  }
+}
+
+@keyframes leoPuppetSleepBreath {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(2px) scale(1.008);
   }
 }
 
