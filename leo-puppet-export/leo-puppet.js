@@ -1,4 +1,5 @@
-const leoStates = ["leo-idle", "leo-happy", "leo-talking", "leo-wave", "leo-sleep", "leo-excited"];
+const leoStates = ["leo-idle", "leo-happy", "leo-talking", "leo-wave", "leo-sleep", "leo-excited", "leo-walk"];
+const leoSelectableStates = ["leo-idle", "leo-happy", "leo-talking", "leo-wave", "leo-sleep", "leo-excited"];
 const leoInactivityDelay = 30000;
 const leoSleepTimers = new WeakMap();
 
@@ -44,6 +45,7 @@ document.querySelectorAll("[data-leo-puppet]").forEach((puppet) => {
 document.addEventListener("click", (event) => {
   const button = event.target.closest("[data-leo-puppet-state]");
   if (!button) return;
+  if (!leoSelectableStates.includes(button.dataset.leoPuppetState)) return;
 
   const puppet = button.closest(".leo-puppet-shell")?.querySelector("[data-leo-puppet]") || document.querySelector("[data-leo-puppet]");
   if (!puppet) return;

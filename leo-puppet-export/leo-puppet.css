@@ -169,6 +169,10 @@ background: transparent;
   display: none;
 }
 
+.leo-part-walk-sprite {
+  display: none;
+}
+
 .leo-puppet.leo-sleep {
   --leo-body-x: 155px;
 --leo-body-y: 105px;
@@ -220,6 +224,12 @@ background: transparent;
 --leo-right-paw-width: 36px;
 }
 
+.leo-puppet.leo-walk {
+  --leo-walk-sprite-x: 80px;
+  --leo-walk-sprite-y: 10px;
+  --leo-walk-sprite-size: 390px;
+}
+
 .leo-puppet.leo-sleep .leo-part:not(.leo-part-sleep) {
   display: none;
 }
@@ -234,6 +244,21 @@ background: transparent;
 
 .leo-puppet.leo-excited .leo-part-excited {
   display: block;
+}
+
+.leo-puppet.leo-walk .leo-part:not(.leo-part-walk-sprite) {
+  display: none;
+}
+
+.leo-puppet.leo-walk .leo-part-walk-sprite {
+  display: block;
+  left: var(--leo-walk-sprite-x);
+  top: var(--leo-walk-sprite-y);
+  z-index: 1;
+  width: var(--leo-walk-sprite-size);
+  height: var(--leo-walk-sprite-size);
+  object-fit: contain;
+  animation: leoWalkSprite 1150ms steps(1, end) infinite;
 }
 
 .leo-part-body-sleep {
@@ -496,6 +521,42 @@ background: transparent;
   }
   45% {
     transform: rotate(5deg);
+  }
+}
+
+@keyframes leoWalkSprite {
+  0%,
+  12% {
+    content: url("assets/walk1.png");
+  }
+  18% {
+    content: url("assets/walk2.png");
+  }
+  25%,
+  37% {
+    content: url("assets/walk3.png");
+  }
+  43% {
+    content: url("assets/walk4.png");
+  }
+  50% {
+    content: url("assets/walk5.png");
+  }
+  58%,
+  70% {
+    content: url("assets/walk6.png");
+  }
+  77% {
+    content: url("assets/walk5.png");
+  }
+  84% {
+    content: url("assets/walk4.png");
+  }
+  91% {
+    content: url("assets/walk3.png");
+  }
+  100% {
+    content: url("assets/walk2.png");
   }
 }
 
