@@ -173,6 +173,15 @@ background: transparent;
   display: none;
 }
 
+/* TEMP TEST: Leo turn sprite */
+.leo-part-turn-sprite {
+  display: none;
+}
+
+.leo-part-direction-sprite {
+  display: none;
+}
+
 .leo-puppet.leo-sleep {
   --leo-body-x: 155px;
 --leo-body-y: 105px;
@@ -195,32 +204,32 @@ background: transparent;
 }
 
 .leo-puppet.leo-excited {
-  --leo-body-x: -40px;
+--leo-body-x: -40px;
 --leo-body-y: -35px;
 --leo-body-width: 560px;
---leo-tail-x: 295px;
---leo-tail-y: 298px;
+--leo-tail-x: 278px;
+--leo-tail-y: 265px;
 --leo-tail-width: 52px;
---leo-left-ear-x: 140px;
---leo-left-ear-y: 100px;
+--leo-left-ear-x: 125px;
+--leo-left-ear-y: 95px;
 --leo-left-ear-width: 40px;
---leo-right-ear-x: 282px;
---leo-right-ear-y: 102px;
+--leo-right-ear-x: 250px;
+--leo-right-ear-y: 95px;
 --leo-right-ear-width: 42px;
---leo-left-eye-x: 184px;
---leo-left-eye-y: 138px;
---leo-left-eye-width: 34px;
---leo-right-eye-x: 252px;
---leo-right-eye-y: 138px;
---leo-right-eye-width: 34px;
---leo-mouth-x: 208px;
---leo-mouth-y: 188px;
+--leo-left-eye-x: 170px;
+--leo-left-eye-y: 128px;
+--leo-left-eye-width: 32px;
+--leo-right-eye-x: 228px;
+--leo-right-eye-y: 128px;
+--leo-right-eye-width: 30px;
+--leo-mouth-x: 190px;
+--leo-mouth-y: 170px;
 --leo-mouth-width: 56px;
---leo-left-paw-x: 118px;
---leo-left-paw-y: 222px;
+--leo-left-paw-x: 110px;
+--leo-left-paw-y: 205px;
 --leo-left-paw-width: 47px;
---leo-right-paw-x: 320px;
---leo-right-paw-y: 226px;
+--leo-right-paw-x: 290px;
+--leo-right-paw-y: 210px;
 --leo-right-paw-width: 36px;
 }
 
@@ -229,6 +238,20 @@ background: transparent;
   --leo-walk-sprite-y: 10px;
   --leo-walk-sprite-size: 390px;
 }
+
+.leo-puppet.leo-turn {
+  --leo-turn-sprite-x: 80px;
+  --leo-turn-sprite-y: 10px;
+  --leo-turn-sprite-size: 390px;
+}
+
+/* TURN SYSTEM START */
+.leo-puppet.leo-direction-system {
+  --leo-direction-sprite-x: 80px;
+  --leo-direction-sprite-y: 10px;
+  --leo-direction-sprite-size: 390px;
+}
+/* TURN SYSTEM END */
 
 .leo-puppet.leo-sleep .leo-part:not(.leo-part-sleep) {
   display: none;
@@ -258,8 +281,47 @@ background: transparent;
   width: var(--leo-walk-sprite-size);
   height: var(--leo-walk-sprite-size);
   object-fit: contain;
-  animation: leoWalkSprite 1150ms steps(1, end) infinite;
+  animation: leoWalkSprite 900ms steps(1, end) infinite;
 }
+
+.leo-puppet.leo-turn .leo-part:not(.leo-part-turn-sprite) {
+  display: none;
+}
+
+.leo-puppet.leo-turn .leo-part-turn-sprite {
+  display: block;
+  left: var(--leo-turn-sprite-x);
+  top: var(--leo-turn-sprite-y);
+  z-index: 1;
+  width: var(--leo-turn-sprite-size);
+  height: var(--leo-turn-sprite-size);
+  object-fit: contain;
+}
+
+/* TURN SYSTEM START */
+.leo-puppet.leo-direction-system .leo-part:not(.leo-part-direction-sprite) {
+  display: none;
+}
+
+.leo-puppet.leo-direction-system .leo-part-direction-sprite {
+  display: block;
+  left: var(--leo-direction-sprite-x);
+  top: var(--leo-direction-sprite-y);
+  z-index: 1;
+  width: var(--leo-direction-sprite-size);
+  height: var(--leo-direction-sprite-size);
+  object-fit: contain;
+  transform-origin: center center;
+  /* DISNEY TURN SYSTEM START */
+  /* FOLLOW THROUGH POLISH START */
+  transition:
+    opacity 80ms ease-out,
+    transform 170ms cubic-bezier(0.22, 0.9, 0.28, 1);
+  will-change: opacity, transform;
+  /* FOLLOW THROUGH POLISH END */
+  /* DISNEY TURN SYSTEM END */
+}
+/* TURN SYSTEM END */
 
 .leo-part-body-sleep {
   left: var(--leo-body-x);
@@ -526,37 +588,20 @@ background: transparent;
 
 @keyframes leoWalkSprite {
   0%,
-  12% {
+  24.99% {
     content: url("assets/walk1.png");
   }
-  18% {
-    content: url("assets/walk2.png");
-  }
   25%,
-  37% {
-    content: url("assets/walk3.png");
-  }
-  43% {
-    content: url("assets/walk4.png");
-  }
-  50% {
-    content: url("assets/walk5.png");
-  }
-  58%,
-  70% {
-    content: url("assets/walk6.png");
-  }
-  77% {
-    content: url("assets/walk5.png");
-  }
-  84% {
-    content: url("assets/walk4.png");
-  }
-  91% {
-    content: url("assets/walk3.png");
-  }
-  100% {
+  49.99% {
     content: url("assets/walk2.png");
+  }
+  50%,
+  74.99% {
+    content: url("assets/walk5.png");
+  }
+  75%,
+  100% {
+    content: url("assets/walk6.png");
   }
 }
 
