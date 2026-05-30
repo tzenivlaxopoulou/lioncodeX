@@ -73,7 +73,7 @@ function renderHeader() {
         </nav>
         <div class="nav-actions">
           <a class="btn btn-secondary" href="${relativePath("contact.html")}">Στρατηγικό Ραντεβού</a>
-          <button class="nav-toggle" type="button" aria-label="Άνοιγμα μενού">≡</button>
+          <button class="nav-toggle" type="button" aria-label="Άνοιγμα μενού" aria-expanded="false">≡</button>
         </div>
       </div>
     </header>
@@ -81,7 +81,18 @@ function renderHeader() {
 
   const header = host.querySelector(".site-header");
   const toggle = host.querySelector(".nav-toggle");
-  toggle?.addEventListener("click", () => header.classList.toggle("is-open"));
+  toggle?.addEventListener("click", () => {
+    const isOpen = header.classList.toggle("is-open");
+    document.body.classList.toggle("menu-open", isOpen);
+    toggle.setAttribute("aria-expanded", String(isOpen));
+  });
+  host.querySelectorAll(".nav-links a").forEach((link) => {
+    link.addEventListener("click", () => {
+      header.classList.remove("is-open");
+      document.body.classList.remove("menu-open");
+      toggle?.setAttribute("aria-expanded", "false");
+    });
+  });
   window.addEventListener("scroll", () => {
     header.classList.toggle("is-scrolled", window.scrollY > 8);
   });

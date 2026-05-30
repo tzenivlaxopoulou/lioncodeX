@@ -46,6 +46,16 @@ body > *:not(.site-code-canvas) {
   z-index: 1;
 }
 
+body > [data-site-header] {
+  position: relative;
+  z-index: 20000;
+}
+
+body > main {
+  position: relative;
+  z-index: 1;
+}
+
 body > *:not(.site-code-canvas):not(.intro-screen) {
   transition: opacity 1320ms ease;
 }
@@ -1518,6 +1528,22 @@ body[data-page="home"] .leo-response-bubble__cta.is-disabled::after {
 }
 
 @media (max-width: 640px) {
+  body[data-page="home"] .hero {
+    padding-top: 3.1rem;
+  }
+
+  body[data-page="home"] .hero .hero-copy h1 {
+    max-width: min(100%, 13.5ch);
+    font-size: clamp(1.72rem, 8.4vw, 2.35rem);
+    line-height: 1.09;
+    white-space: normal;
+  }
+
+  body[data-page="home"] .hero .hero-copy p {
+    font-size: 0.96rem;
+    line-height: 1.65;
+  }
+
   body[data-page="home"] .hero .hero-copy .btn-row {
     flex-direction: column;
     align-items: stretch;
@@ -2945,6 +2971,18 @@ body[data-service="website-development"] .leo-page-guide--interactive .leo-page-
 }
 
 @media (max-width: 1080px) {
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  .site-brand-bar {
+    z-index: 20000;
+  }
+
+  .site-header {
+    z-index: 20010;
+  }
+
   .page-hero-grid,
   .split-feature,
   .industries,
@@ -2996,49 +3034,73 @@ body[data-service="website-development"] .leo-page-guide--interactive .leo-page-
     display: none;
   }
 
+  .nav-actions {
+    margin-left: auto;
+  }
+
   .nav-toggle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    z-index: 20030;
+    flex: 0 0 auto;
   }
 
   .site-header.is-open .nav-shell {
-    align-items: flex-start;
+    align-items: center;
   }
 
   .site-header.is-open .nav-links {
-    display: grid;
-    position: absolute;
-    top: calc(var(--nav-h) - 6px);
-    left: 1rem;
-    right: 1rem;
-    z-index: 1001;
-    padding: 1rem;
-    border-radius: 24px;
-    background: rgba(7, 18, 38, 0.98);
-    border: 1px solid rgba(207, 186, 141, 0.16);
-    box-shadow: var(--shadow);
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    overflow: visible;
-    transform: none;
-    gap: 0.35rem;
+    display: flex !important;
+    flex-direction: column;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 20020 !important;
+    align-items: stretch;
+    justify-content: flex-start;
+    align-content: start;
+    padding:
+      calc(env(safe-area-inset-top) + 5.25rem)
+      1.1rem
+      calc(env(safe-area-inset-bottom) + 1.25rem)
+      1.1rem;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0 !important;
+    background: #07111f !important;
+    border: 0 !important;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(22px);
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    transform: none !important;
+    gap: 0.55rem;
   }
 
   .site-header.is-open .nav-links a {
     display: flex;
     align-items: center;
-    min-height: 44px;
+    justify-content: center;
+    width: 100%;
+    min-height: 54px;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
     color: rgba(243, 239, 231, 0.96);
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(207, 186, 141, 0.18);
+    border-radius: 999px;
+    font-size: 1.05rem;
+    font-weight: 700;
   }
 
   .site-header.is-open .nav-actions .btn {
-    display: inline-flex;
+    display: none;
   }
 }
 
@@ -3046,6 +3108,21 @@ body[data-service="website-development"] .leo-page-guide--interactive .leo-page-
 .site-brand-bar-inner {
     flex-direction: column;
     text-align: center;
+  }
+
+  .site-header.is-open .nav-links {
+    gap: 0.55rem;
+    padding:
+      calc(env(safe-area-inset-top) + 5.25rem)
+      1.1rem
+      calc(env(safe-area-inset-bottom) + 1.25rem)
+      1.1rem;
+  }
+
+  .site-header.is-open .nav-links a {
+    min-height: 48px;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.98rem;
   }
 
   .site-brand-bar .brand-text {
@@ -3183,11 +3260,11 @@ body[data-service="website-development"] .leo-page-guide--interactive .leo-page-
   .site-header.is-open,
   .site-header.is-open .nav-shell,
   .site-header.is-open .nav-links {
-    z-index: 1000;
+    z-index: 20020;
   }
 
   .site-header.is-open .nav-links {
-    z-index: 1001;
+    z-index: 20020 !important;
   }
 
   .page-hero::before,
@@ -3428,5 +3505,51 @@ body[data-service="website-development"] .leo-page-guide--interactive .leo-page-
 
   100% {
     transform: translate3d(-116px, 0, 0);
+  }
+}
+
+@media (max-width: 1080px) {
+  body > [data-site-header] {
+    position: relative;
+    z-index: 30000 !important;
+  }
+
+  body > main {
+    position: relative;
+    z-index: 1 !important;
+  }
+
+  .site-header.is-open .nav-links {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    z-index: 30020 !important;
+    padding:
+      calc(env(safe-area-inset-top) + 5.25rem)
+      1.1rem
+      calc(env(safe-area-inset-bottom) + 1.25rem)
+      1.1rem !important;
+    background: #07111f !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    gap: 0.55rem !important;
+  }
+
+  .site-header.is-open .nav-links a {
+    min-height: 48px !important;
+    padding: 0.7rem 0.9rem !important;
+    font-size: 0.98rem !important;
+    line-height: 1.2;
+  }
+
+  .site-header.is-open .nav-shell,
+  .site-header.is-open .nav-toggle {
+    position: relative;
+    z-index: 30030 !important;
   }
 }
