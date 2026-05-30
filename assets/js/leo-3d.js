@@ -10,6 +10,12 @@ const leoStates = {
 };
 const leoModelBasePath = "assets/leo3d";
 const fallbackState = "idle";
+const instanceKey = "__lionCodeXLeo3DInstance";
+const leoDebug = new URLSearchParams(window.location.search).has("leoDebug");
+
+function logDebug(...args) {
+  if (leoDebug) console.info(...args);
+}
 
 function relativePath(target) {
   const basePath = document.body.dataset.base || ".";
@@ -67,10 +73,25 @@ function normalizeModel(scene, scale) {
 }
 
 function initLeo3D() {
-  const host = document.querySelector("[data-leo-3d]");
-  const stage = document.querySelector("[data-leo-3d-stage]");
+  const hosts = document.querySelectorAll("[data-leo-3d]");
+  const stages = document.querySelectorAll("[data-leo-3d-stage]");
+  const host = hosts[0];
+  const stage = stages[0];
   const loaderLabel = document.querySelector("[data-leo-3d-loader]");
   if (!host || !stage) return;
+
+  logDebug("[Leo3D] containers found", {
+    hosts: hosts.length,
+    stages: stages.length,
+    canvasesInStage: stage.querySelectorAll("canvas").length
+  });
+
+  if (window[instanceKey]?.initialized) {
+    logDebug("[Leo3D] duplicate init prevented");
+    return;
+  }
+
+  stage.querySelectorAll("canvas").forEach((canvas) => canvas.remove());
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const clock = new THREE.Clock();
@@ -86,7 +107,15 @@ function initLeo3D() {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.domElement.setAttribute("data-leo-3d-canvas", "true");
   stage.append(renderer.domElement);
+  logDebug("[Leo3D] canvases after append", stage.querySelectorAll("canvas").length);
+
+  window[instanceKey] = {
+    initialized: true,
+    renderer,
+    stage
+  };
 
   const modelRoot = new THREE.Group();
   modelRoot.position.set(0, -0.16, 0);
@@ -116,6 +145,7 @@ function initLeo3D() {
   const models = new Map();
   const pendingModels = new Map();
   const failedModels = new Set();
+  let activeMixer = null;
   let activeName = "idle";
   let fade = null;
   let returnTimer = 0;
@@ -146,7 +176,11 @@ function initLeo3D() {
   function hideInactiveModels(visibleName) {
     models.forEach((model, modelName) => {
       if (modelName !== visibleName) {
+        model.mixer.stopAllAction();
         setSceneOpacity(model, 0);
+        if (model.group.parent === modelRoot) {
+          modelRoot.remove(model.group);
+        }
       }
     });
   }
@@ -169,6 +203,24 @@ function initLeo3D() {
       action.setLoop(shouldLoop ? THREE.LoopRepeat : THREE.LoopOnce, shouldLoop ? Infinity : 1);
       action.play();
     });
+  }
+
+  function mountActiveModel(name, opacity = 1) {
+    const model = models.get(name);
+    if (!model) return null;
+
+    hideInactiveModels(name);
+    if (model.group.parent !== modelRoot) {
+      modelRoot.add(model.group);
+    }
+    setSceneOpacity(model, opacity);
+    activeMixer = model.mixer;
+    logDebug("[Leo3D] active model", {
+      state: name,
+      rootChildren: modelRoot.children.length,
+      sceneChildren: scene.children.length
+    });
+    return model;
   }
 
   function emitLeoStateEvent(type, name) {
@@ -198,7 +250,7 @@ function initLeo3D() {
   function fadeTo(name, options = {}) {
     const isBlockedByOneShot = oneShotState && name !== "idle" && !(options.force && name === oneShotState);
     if (isBlockedByOneShot) {
-      console.info(`[Leo3D] Ignoring ${name}; ${oneShotState} is playing.`);
+      logDebug(`[Leo3D] Ignoring ${name}; ${oneShotState} is playing.`);
       return;
     }
     if (failedModels.has(name)) {
@@ -218,7 +270,8 @@ function initLeo3D() {
     const to = models.get(name);
     const duration = reducedMotion.matches ? 0.01 : options.duration ?? 0.32;
 
-    hideInactiveModels(name);
+    const activeModel = mountActiveModel(name, 0.001);
+    if (!activeModel) return;
     playAction(name);
     fade = { to, elapsed: 0, duration };
     activeName = name;
@@ -260,7 +313,7 @@ function initLeo3D() {
 
   function animate() {
     const delta = Math.min(clock.getDelta(), 0.045);
-    models.forEach((model) => model.mixer?.update(delta));
+    activeMixer?.update(delta);
 
     if (fade) {
       fade.elapsed += delta;
@@ -342,7 +395,9 @@ function initLeo3D() {
     const idle = await loadGltf("idle", leoStates.idle, true);
     const idleSize = new THREE.Box3().setFromObject(idle.scene).getSize(new THREE.Vector3());
     sharedScale = 1.15 / Math.max(idleSize.x, idleSize.y, idleSize.z, 1);
-    registerModel("idle", idle, 1);
+    registerModel("idle", idle, 0);
+    mountActiveModel("idle", 1);
+    activeName = "idle";
     playAction("idle");
     host.classList.add("is-loaded");
     loaderLabel?.setAttribute("aria-hidden", "true");
@@ -373,6 +428,10 @@ function initLeo3D() {
       throw new Error(`No GLB filename configured for state: ${name}`);
     }
     const gltf = await loadGltf(name, file, false);
+    if (models.has(name)) {
+      pendingModels.delete(name);
+      return models.get(name);
+    }
     const model = registerModel(name, gltf, 0);
     pendingModels.delete(name);
     return model;
@@ -380,10 +439,10 @@ function initLeo3D() {
 
   async function loadGltf(name, file, required) {
     const url = getModelUrl(file);
-    console.info(`[Leo3D] Loading ${name}: ${url}`);
+    logDebug(`[Leo3D] Loading ${name}: ${url}`);
     try {
       const gltf = await loader.loadAsync(url);
-      console.info(`[Leo3D] Loaded ${name}: ${url}`);
+      logDebug(`[Leo3D] Loaded ${name}: ${url}`);
       return gltf;
     } catch (error) {
       const level = required ? "error" : "warn";
@@ -394,11 +453,15 @@ function initLeo3D() {
 
   function registerModel(name, gltf, opacity) {
     const group = gltf.scene;
+    if (models.has(name)) return models.get(name);
     normalizeModel(group, sharedScale);
     const normalizedBox = new THREE.Box3().setFromObject(group);
     const normalizedSize = normalizedBox.getSize(new THREE.Vector3());
     const normalizedCenter = normalizedBox.getCenter(new THREE.Vector3());
-    console.info(`[Leo3D] ${name} bounding box`, {
+    logDebug(`[Leo3D] ${name} loaded`, {
+      modelNames: [...models.keys(), name],
+      rootChildren: modelRoot.children.length,
+      meshCount: group.children.length,
       size: {
         x: Number(normalizedSize.x.toFixed(3)),
         y: Number(normalizedSize.y.toFixed(3)),
@@ -415,7 +478,6 @@ function initLeo3D() {
     const actions = gltf.animations.map((clip) => mixer.clipAction(clip));
     const duration = getLongestClipDuration(gltf) || (name === "idle" ? 5 : 1.8);
 
-    modelRoot.add(group);
     const model = { group, mixer, actions, materials, duration };
     models.set(name, model);
     setSceneOpacity(model, opacity);
@@ -433,7 +495,7 @@ function initLeo3D() {
   });
 
   function playState(state) {
-    console.info(`[Leo3D] playState(${state})`);
+    logDebug(`[Leo3D] playState(${state})`);
     if (!models.has(state) && pendingModels.has(state)) {
       pendingModels.get(state)?.then((model) => {
         if (model && models.has(state)) playState(state);
