@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="assets/css/styles.css" />
     <script defer src="assets/js/site.js"></script>
+    <script type="module" src="assets/js/leo-3d.js?v=leo-rollback-stable-1"></script>
   </head>
   <body data-page="ai" data-base=".">
     <div data-site-header></div>
@@ -20,16 +21,14 @@
             <h1>AI integration με ρεαλιστικό επιχειρηματικό ρόλο και premium παρουσίαση.</h1>
             <p>Η AI δεν χρειάζεται να μοιάζει πειραματική. Μπορεί να λειτουργεί ως φυσική επέκταση της εξυπηρέτησης, του lead capture και της online εμπειρίας σας.</p>
           </div>
-          <div class="page-hero-side" data-reveal>
-            <div class="visual-card">
-              <h3>Πού αποδίδει καλύτερα</h3>
-              <ul class="list-checks">
-                <li>AI agents για websites και e-shops</li>
-                <li>Conversational assistants για FAQ, support και sales guidance</li>
-                <li>Lead qualification και routing προς την κατάλληλη ενέργεια</li>
-              </ul>
+          <section class="hero-leo-3d" aria-label="Leo 3D mascot" data-leo-3d data-reveal>
+            <div class="hero-leo-assistant">
+              <div class="leo-response-bubble" data-leo-response-bubble aria-live="polite" aria-hidden="true"></div>
+              <div class="hero-leo-3d__stage" data-leo-3d-stage>
+                <div class="hero-leo-3d__loader" data-leo-3d-loader>Loading Leo</div>
+              </div>
             </div>
-          </div>
+          </section>
         </div>
       </section>
       <section class="section">

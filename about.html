@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="assets/css/styles.css" />
     <script defer src="assets/js/site.js"></script>
+    <script type="module" src="assets/js/leo-3d.js?v=leo-rollback-stable-1"></script>
   </head>
   <body data-page="about" data-base=".">
     <div data-site-header></div>
@@ -20,16 +21,14 @@
             <h1>Στρατηγικός ψηφιακός συνεργάτης για επιχειρήσεις που θέλουν σοβαρή αναβάθμιση.</h1>
             <p>Η LionCodeX συνδυάζει design, development, AI thinking και commercial clarity ώστε η ψηφιακή παρουσία μιας επιχείρησης να δείχνει αντάξια της πραγματικής της ποιότητας.</p>
           </div>
-          <div class="page-hero-side" data-reveal>
-            <div class="visual-card">
-              <h3>Η φιλοσοφία μας</h3>
-              <ul class="list-checks">
-                <li>Custom προσέγγιση, χωρίς έτοιμες φόρμες και αντιγραφή από κοινά templates.</li>
-                <li>Συνδυασμός αισθητικής, τεχνολογικής ακρίβειας και business λογικής.</li>
-                <li>Σκέψη για το πώς θα λειτουργήσει το τελικό αποτέλεσμα στην αγορά.</li>
-              </ul>
+          <section class="hero-leo-3d" aria-label="Leo 3D mascot" data-leo-3d data-reveal>
+            <div class="hero-leo-assistant">
+              <div class="leo-response-bubble" data-leo-response-bubble aria-live="polite" aria-hidden="true"></div>
+              <div class="hero-leo-3d__stage" data-leo-3d-stage>
+                <div class="hero-leo-3d__loader" data-leo-3d-loader>Loading Leo</div>
+              </div>
             </div>
-          </div>
+          </section>
         </div>
       </section>
       <section class="section">

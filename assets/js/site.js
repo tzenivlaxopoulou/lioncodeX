@@ -256,8 +256,37 @@ function initPageLeoGuide() {
     fallbackMessageByPage[currentPage];
   const isServicesOverview = pathname.endsWith("/services.html");
   const isWebsiteServicePage = pathname.endsWith("/services/website-development.html");
+  const pageUsesHero3DLeo = Boolean(heroGrid.querySelector("[data-leo-3d]"));
+  const hideGuideAvatar = pageUsesHero3DLeo && ["contact", "about", "portfolio", "ai"].includes(currentPage);
+  const hero3DAssistant = heroGrid.querySelector("[data-leo-3d] .hero-leo-assistant");
+  const guideAvatarMarkup = hideGuideAvatar
+    ? ""
+    : `
+        <figure class="leo-page-guide__avatar-wrap">
+          <img class="leo-page-guide__avatar" src="${relativePath("assets/Leo/Leo-happy1.png")}" alt="Leo AI concierge mascot" />
+        </figure>
+      `;
 
   if (!message) return;
+
+  if (hideGuideAvatar && hero3DAssistant) {
+    heroGrid.classList.add("page-hero-grid--with-leo");
+    pageHero.classList.add("page-hero--with-leo");
+    hero3DAssistant.classList.add("hero-leo-assistant--page");
+    hero3DAssistant.querySelector(".leo-page-guide__bubble--over-3d")?.remove();
+
+    const bubbleTemplate = document.createElement("template");
+    bubbleTemplate.innerHTML = `
+      <div class="leo-page-guide__bubble leo-page-guide__bubble--over-3d">
+        <span class="leo-page-guide__label">Leo · AI Concierge</span>
+        <p>${message}</p>
+      </div>
+    `;
+
+    const responseBubble = hero3DAssistant.querySelector(".leo-response-bubble");
+    hero3DAssistant.insertBefore(bubbleTemplate.content.firstElementChild, responseBubble);
+    return;
+  }
 
   let side = heroGrid.querySelector(".page-hero-side");
   if (!side) {
@@ -299,9 +328,7 @@ function initPageLeoGuide() {
           <div class="leo-page-guide__actions" aria-live="polite"></div>
         </div>
         <div class="leo-page-guide__reaction" aria-live="polite" aria-hidden="true"></div>
-        <figure class="leo-page-guide__avatar-wrap">
-          <img class="leo-page-guide__avatar" src="${relativePath("assets/Leo/Leo-happy1.png")}" alt="Leo AI concierge mascot" />
-        </figure>
+        ${guideAvatarMarkup}
       </section>
     `
     : `
@@ -310,9 +337,7 @@ function initPageLeoGuide() {
           <span class="leo-page-guide__label">Leo · AI Concierge</span>
           <p>${message}</p>
         </div>
-        <figure class="leo-page-guide__avatar-wrap">
-          <img class="leo-page-guide__avatar" src="${relativePath("assets/Leo/Leo-happy1.png")}" alt="Leo AI concierge mascot" />
-        </figure>
+        ${guideAvatarMarkup}
       </section>
     `;
 
