@@ -1067,6 +1067,243 @@ function initCodeRain() {
   }
 }
 
+function initHeroAssistantCard() {
+  if (document.body.dataset.page !== "home") return;
+
+  const leoResponseBubble = document.querySelector("[data-leo-response-bubble]");
+  if (!leoResponseBubble) return;
+
+  const quickReplyMap = new Map([
+    [
+      "Θέλω περισσότερους πελάτες",
+      {
+        response:
+          "Τότε το ζητούμενο είναι μια ψηφιακή παρουσία που εμπνέει εμπιστοσύνη, εξηγεί καθαρά την αξία σου και οδηγεί τον επισκέπτη σε επικοινωνία ή αγορά.",
+        bubbleText:
+          "Για περισσότερους πελάτες χρειάζεσαι μια ψηφιακή παρουσία που εμπνέει εμπιστοσύνη και οδηγεί τον επισκέπτη σε επικοινωνία ή αγορά.",
+        bubbleActions: [
+          { label: "Δες ιστοσελίδες", href: "#service-web-development" },
+          { label: "Δες marketing", href: "services/digital-marketing.html" },
+          { label: "Κλείσε στρατηγικό call", href: "#contact-booking" }
+        ]
+      }
+    ],
+    [
+      "Θέλω online πωλήσεις",
+      {
+        response:
+          "Εδώ η σωστή βάση είναι ένα e-shop που κάνει την αγορά εύκολη, καθαρή και αξιόπιστη, χωρίς να κουράζει τον πελάτη.",
+        bubbleText:
+          "Για online πωλήσεις χρειάζεσαι εμπειρία που χτίζει εμπιστοσύνη, μειώνει τριβές και οδηγεί τον χρήστη στο καλάθι.",
+        bubbleActions: [
+          { label: "Δες e-shop λύσεις", href: "#service-ecommerce" },
+          { label: "Δες AI για e-shops", href: "#ai-solutions-preview" },
+          { label: "Κλείσε στρατηγικό call", href: "#contact-booking" }
+        ]
+      }
+    ],
+    [
+      "Θέλω καλύτερη online παρουσία",
+      {
+        response:
+          "Αν η εικόνα σου online δεν σε εκπροσωπεί όπως πρέπει, ξεκινάμε από μια premium ιστοσελίδα με σωστή δομή, καθαρό μήνυμα και εμπειρία που δείχνει την αξία σου.",
+        bubbleText:
+          "Η online εικόνα σου πρέπει να εξηγεί καθαρά ποιος είσαι, τι προσφέρεις και γιατί να σε επιλέξει κάποιος.",
+        bubbleActions: [
+          { label: "Δες website design", href: "#service-web-development" },
+          { label: "Δες portfolio", href: "#portfolio-preview" },
+          { label: "Κλείσε στρατηγικό call", href: "#contact-booking" }
+        ]
+      }
+    ],
+    [
+      "Με ενδιαφέρει AI",
+      {
+        response:
+          "Η AI εμπειρία μπορεί να μετατρέψει το site σου από στατική παρουσία σε ενεργό εργαλείο καθοδήγησης, εξυπηρέτησης και συλλογής leads.",
+        bubbleText:
+          "Το AI μπορεί να γίνει ο έξυπνος βοηθός του site σου, να καθοδηγεί επισκέπτες και να αυξάνει τα σωστά leads.",
+        bubbleActions: [
+          { label: "Δες AI agents", href: "#ai-solutions-preview" },
+          { label: "Δες AI Business Scan", href: "", disabled: true },
+          { label: "Κλείσε στρατηγικό call", href: "#contact-booking" }
+        ]
+      }
+    ]
+  ]);
+
+  let bubbleSequenceActive = false;
+  let bubbleFallbackTimer = 0;
+  const bubbleHighlightTimers = [];
+  const welcomeBubbleState = {
+    bubbleText: "Γεια! Είμαι ο Leo. Πες μου τι θέλεις να πετύχεις και θα σε οδηγήσω στη σωστή λύση.",
+    bubbleActions: [
+      { label: "Θέλω περισσότερους πελάτες", choice: "Θέλω περισσότερους πελάτες" },
+      { label: "Θέλω online πωλήσεις", choice: "Θέλω online πωλήσεις" },
+      { label: "Θέλω καλύτερη online παρουσία", choice: "Θέλω καλύτερη online παρουσία" },
+      { label: "Με ενδιαφέρει AI", choice: "Με ενδιαφέρει AI" }
+    ]
+  };
+
+  function triggerLeo3D(state) {
+    if (typeof window.lionCodeXLeo3D?.playState === "function") {
+      window.lionCodeXLeo3D.playState(state);
+      return;
+    }
+    if (typeof window.lionCodeXLeo3D?.[state] === "function") {
+      window.lionCodeXLeo3D[state]();
+      return;
+    }
+    window.dispatchEvent(new CustomEvent("lioncodex:leo-state", { detail: { state } }));
+  }
+
+  function triggerLeo3DWhenReady(state) {
+    triggerLeo3D(state);
+    if (typeof window.lionCodeXLeo3D?.playState === "function") return;
+    window.setTimeout(() => triggerLeo3D(state), 350);
+  }
+
+  function clearBubbleSequence() {
+    window.clearTimeout(bubbleFallbackTimer);
+    bubbleFallbackTimer = 0;
+    while (bubbleHighlightTimers.length) {
+      window.clearTimeout(bubbleHighlightTimers.pop());
+    }
+  }
+
+  function renderLeoBubble(state, sequence = true) {
+    if (!leoResponseBubble) return;
+
+    const actions = state.bubbleActions || [];
+    leoResponseBubble.innerHTML = `
+      <p>${state.bubbleText || state.response}</p>
+      <div class="leo-response-bubble__actions">
+        ${actions
+          .map((action, index) => {
+            if (action.choice) {
+              return `<button class="leo-response-bubble__cta" type="button" data-followup-index="${index}" data-leo-choice="${action.choice}">${action.label}</button>`;
+            }
+            const disabled = action.disabled || !action.href;
+            const className = `leo-response-bubble__cta${disabled ? " is-disabled" : ""}`;
+            if (disabled) {
+              return `<span class="${className}" data-followup-index="${index}" aria-disabled="true">${action.label}</span>`;
+            }
+            return `<a class="${className}" data-followup-index="${index}" href="${relativePath(action.href)}">${action.label}</a>`;
+          })
+          .join("")}
+      </div>
+    `;
+    leoResponseBubble.classList.add("is-visible");
+    leoResponseBubble.classList.toggle("is-sequencing", sequence);
+    leoResponseBubble.setAttribute("aria-hidden", "false");
+    if (!sequence) {
+      leoResponseBubble.querySelectorAll(".leo-response-bubble__cta").forEach((cta) => {
+        cta.classList.add("is-revealed");
+      });
+    }
+  }
+
+  function finishBubbleSequence() {
+    clearBubbleSequence();
+    bubbleSequenceActive = false;
+    if (!leoResponseBubble) return;
+    leoResponseBubble.classList.remove("is-sequencing");
+    leoResponseBubble.querySelectorAll(".leo-response-bubble__cta").forEach((cta) => {
+      cta.classList.remove("is-highlighted");
+      cta.classList.add("is-revealed");
+    });
+    triggerLeo3D("idle");
+  }
+
+  function runBubbleHighlights(durationSeconds = 0) {
+    if (!leoResponseBubble) return;
+
+    clearBubbleSequence();
+    const ctas = Array.from(leoResponseBubble.querySelectorAll(".leo-response-bubble__cta"));
+    ctas.forEach((cta) => {
+      cta.classList.remove("is-highlighted", "is-revealed");
+    });
+
+    ctas.forEach((cta, index) => {
+      const timer = window.setTimeout(() => {
+        ctas.forEach((item) => item.classList.remove("is-highlighted"));
+        cta.classList.add("is-highlighted", "is-revealed");
+      }, 260 + index * 520);
+      bubbleHighlightTimers.push(timer);
+    });
+
+    const sequenceMs = 620 + ctas.length * 520;
+    const animationMs = durationSeconds > 0 ? durationSeconds * 1000 + 260 : 0;
+    bubbleFallbackTimer = window.setTimeout(finishBubbleSequence, Math.max(2100, sequenceMs, animationMs));
+  }
+
+  function startBubbleSequence(state) {
+    if (!leoResponseBubble) return;
+
+    bubbleSequenceActive = true;
+    renderLeoBubble(state, true);
+    runBubbleHighlights();
+  }
+
+  function applyQuickReplySelection(selectedLabel) {
+    if (bubbleSequenceActive) {
+      console.info(`[Leo Concierge] Ignoring ${selectedLabel}; Leo response sequence is active.`);
+      return;
+    }
+    console.info(`[Leo Concierge] Button clicked: ${selectedLabel}`);
+    const nextState = quickReplyMap.get(selectedLabel);
+    if (!nextState) {
+      console.warn(`[Leo Concierge] No response configured for: ${selectedLabel}`);
+      return;
+    }
+    startBubbleSequence(nextState);
+    triggerLeo3D("talk");
+  }
+
+  console.info("[Leo Concierge] Initialized speech bubble assistant");
+
+  renderLeoBubble(welcomeBubbleState, false);
+  triggerLeo3DWhenReady("wave");
+
+  leoResponseBubble?.addEventListener("click", (event) => {
+    const target = event.target instanceof Element ? event.target : null;
+    const cta = target?.closest(".leo-response-bubble__cta");
+    if (!cta) return;
+    const selectedLabel = cta.getAttribute("data-leo-choice");
+    if (selectedLabel) {
+      event.preventDefault();
+      applyQuickReplySelection(selectedLabel);
+      return;
+    }
+    if (bubbleSequenceActive || cta.classList.contains("is-disabled")) {
+      event.preventDefault();
+      return;
+    }
+    const href = cta.getAttribute("href");
+    if (href?.startsWith("#")) {
+      const destination = document.querySelector(href);
+      if (destination) {
+        event.preventDefault();
+        destination.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.history.pushState(null, "", href);
+      }
+    }
+    window.lionCodeXLeo3D?.playState?.("walk");
+  });
+
+  window.addEventListener("lioncodex:leo-state-finished", (event) => {
+    if (event.detail?.state === "talk" && bubbleSequenceActive) {
+      finishBubbleSequence();
+    }
+  });
+
+  window.addEventListener("lioncodex:leo-state-start", (event) => {
+    if (event.detail?.state === "talk" && bubbleSequenceActive) {
+      runBubbleHighlights(event.detail.duration);
+    }
+  });
+}
+
 function initStaticHeroAssistantDrag() {
   if (document.body.dataset.page !== "home") return;
 
@@ -1553,7 +1790,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderFooter();
   initPageLeoGuide();
   initIntroOverlay();
-  initStaticHeroAssistantDrag();
+  initHeroAssistantCard();
   initCodeRain();
   initReveal();
   initPortfolioFilters();

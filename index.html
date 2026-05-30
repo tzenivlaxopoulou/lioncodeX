@@ -12,9 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="image" href="assets/media/Lion Company logo.png" />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="leo-puppet-export/leo-puppet.css" />
     <link rel="stylesheet" href="assets/css/styles.css" />
-    <script defer src="assets/js/site.js"></script>
+    <script defer src="assets/js/site.js?v=leo-rollback-stable-1"></script>
+    <script type="module" src="assets/js/leo-3d.js?v=leo-rollback-stable-1"></script>
   </head>
   <body class="intro-active" data-page="home" data-base=".">
     <div class="intro-screen" data-intro-screen aria-hidden="true">
@@ -65,76 +65,18 @@
               </div>
             </div>
           </div>
-          <section class="leo-puppet-test hero-leo-puppet-test" aria-label="Leo Puppet Animation Test" data-reveal>
-            <div class="leo-puppet-test-copy">
-              <p class="leo-kicker">Temporary test</p>
-              <h2>Leo Puppet Animation Test</h2>
-            </div>
-
-            <div class="leo-puppet-shell">
-              <div class="leo-puppet leo-idle" data-leo-puppet aria-hidden="true">
-                <img class="leo-part leo-part-body" src="leo-puppet-export/assets/body base clean.png" alt="" />
-                <img class="leo-part leo-part-tail" src="leo-puppet-export/assets/tail-2.png" alt="" />
-                <img class="leo-part leo-part-ear-left" src="leo-puppet-export/assets/left ear.png" alt="" />
-                <img class="leo-part leo-part-ear-right" src="leo-puppet-export/assets/right ear.png" alt="" />
-                <img class="leo-part leo-part-eye-left" src="leo-puppet-export/assets/left eye.png" alt="" />
-                <img class="leo-part leo-part-eye-right" src="leo-puppet-export/assets/right eye.png" alt="" />
-                <img class="leo-part leo-part-mouth" src="leo-puppet-export/assets/mouth-2.png" alt="" />
-                <img class="leo-part leo-part-sleep leo-part-body-sleep" src="leo-puppet-export/assets/boby base sleep.png" alt="" />
-                <img class="leo-part leo-part-sleep leo-part-ear-left-sleep" src="leo-puppet-export/assets/left ear sleep.png" alt="" />
-                <img class="leo-part leo-part-sleep leo-part-ear-right-sleep" src="leo-puppet-export/assets/right ear sleep.png" alt="" />
-                <img class="leo-part leo-part-sleep leo-part-eye-left-sleep" src="leo-puppet-export/assets/left eye sleep.png" alt="" />
-                <img class="leo-part leo-part-sleep leo-part-eye-right-sleep" src="leo-puppet-export/assets/right eye sleep.png" alt="" />
-                <img class="leo-part leo-part-sleep leo-part-mouth-sleep" src="leo-puppet-export/assets/mouth sleep.png" alt="" />
-                <img class="leo-part leo-part-excited leo-part-body-excited" src="leo-puppet-export/assets/body base ecxited canva.png" alt="" />
-                <img class="leo-part leo-part-excited leo-part-tail-excited" src="leo-puppet-export/assets/tail excited.png" alt="" />
-                <img class="leo-part leo-part-excited leo-part-ear-left-excited" src="leo-puppet-export/assets/left ear excited.png" alt="" />
-                <img class="leo-part leo-part-excited leo-part-ear-right-excited" src="leo-puppet-export/assets/right ear excited.png" alt="" />
-                <img class="leo-part leo-part-excited leo-part-eye-left-excited" src="leo-puppet-export/assets/left eye excited.png" alt="" />
-                <img class="leo-part leo-part-excited leo-part-eye-right-excited" src="leo-puppet-export/assets/right eye excited.png" alt="" />
-                <img class="leo-part leo-part-excited leo-part-mouth-excited" src="leo-puppet-export/assets/mouth excited.png" alt="" />
-                <img class="leo-part leo-part-excited leo-part-paw-left-excited" src="leo-puppet-export/assets/left paw excited.png" alt="" />
-                <img class="leo-part leo-part-excited leo-part-paw-right-excited" src="leo-puppet-export/assets/right paw excited.png" alt="" />
-                <img class="leo-part leo-part-walk-sprite" src="leo-puppet-export/assets/walk1.png" alt="" />
-                <img class="leo-part leo-part-turn-sprite" src="leo-puppet-export/assets/turn.png" alt="" />
-                <img class="leo-part leo-part-direction-sprite" src="leo-puppet-export/assets/walk-right1.png" alt="" />
+          <section class="hero-leo-3d" aria-label="Leo 3D mascot" data-leo-3d data-reveal>
+            <div class="hero-leo-assistant">
+              <div class="leo-response-bubble" data-leo-response-bubble aria-live="polite" aria-hidden="true"></div>
+              <div class="hero-leo-3d__stage" data-leo-3d-stage>
+                <div class="hero-leo-3d__loader" data-leo-3d-loader>Loading Leo</div>
               </div>
-
             </div>
           </section>
-          <div class="hero-bubble-row" data-reveal>
-            <div class="hero-assistant is-open">
-              <div class="leo-chat-card">
-                <div class="leo-chat-card__header">
-                  <div>
-                    <strong>Leo – AI Concierge</strong>
-                    <span>Ο ψηφιακός σου οδηγός για να βρεις τη σωστή λύση για την επιχείρησή σου.</span>
-                  </div>
-                </div>
-                <div class="leo-chat-card__message" aria-live="polite">
-                  <div class="leo-chat-card__entry leo-chat-card__entry--leo">
-                    <p>Γεια! Είμαι ο Leo.<br />Μπορώ να σε βοηθήσω να βρεις ποια ψηφιακή λύση ταιριάζει καλύτερα στην επιχείρησή σου.</p>
-                  </div>
-                </div>
-                <div class="leo-chat-card__chips">
-                  <button class="leo-chat-card__chip" type="button">Θέλω περισσότερους πελάτες</button>
-                  <button class="leo-chat-card__chip" type="button">Θέλω online πωλήσεις</button>
-                  <button class="leo-chat-card__chip" type="button">Θέλω καλύτερη online παρουσία</button>
-                  <button class="leo-chat-card__chip" type="button">Με ενδιαφέρει AI</button>
-                </div>
-                <div class="leo-chat-card__actions" aria-live="polite"></div>
-              </div>
-              <div class="hero-leo-popout" aria-hidden="true">
-                <button class="leo-mascot" type="button" aria-label="Leo mascot">
-                  <img src="assets/Leo/Leo-peek-idle.png" alt="Leo mascot" />
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
-      <section class="section">
+      <section class="section" id="featured-services">
         <div class="container">
           <div class="trust-strip" data-reveal>
             <p class="lead">Συνεργαζόμαστε με επιχειρήσεις που θέλουν αναβάθμιση εικόνας, καλύτερο conversion και πιο έξυπνη λειτουργία online.</p>
@@ -156,25 +98,25 @@
             <p>Κάθε υπηρεσία οργανώνεται με στόχο business αποτέλεσμα, όχι απλώς τεχνική παράδοση.</p>
           </div>
           <div class="grid-4">
-            <article class="service-card" data-reveal>
+            <article class="service-card" id="service-web-development" data-reveal>
               <span class="card-topline">01</span>
               <h3>Website Design &amp; Development</h3>
               <p>Custom ιστοσελίδες με premium αισθητική, γρήγορη απόδοση και δομή που οδηγεί σε επικοινωνία ή πώληση.</p>
               <a class="btn btn-tertiary" href="services/website-development.html">Περισσότερα</a>
             </article>
-            <article class="service-card" data-reveal>
+            <article class="service-card" id="service-ecommerce" data-reveal>
               <span class="card-topline">02</span>
               <h3>E-commerce &amp; Online Stores</h3>
               <p>Ηλεκτρονικά καταστήματα με καθαρή εμπειρία αγοράς, καλύτερη εμπιστοσύνη και έμφαση στο conversion rate.</p>
               <a class="btn btn-tertiary" href="services/ecommerce.html">Περισσότερα</a>
             </article>
-            <article class="service-card" data-reveal>
+            <article class="service-card" id="service-web-apps" data-reveal>
               <span class="card-topline">03</span>
               <h3>Web &amp; Mobile Applications</h3>
               <p>Προσαρμοσμένες εφαρμογές για λειτουργίες, portals, bookings, dashboards και εσωτερικά workflows.</p>
               <a class="btn btn-tertiary" href="services/web-apps.html">Περισσότερα</a>
             </article>
-            <article class="service-card" data-reveal>
+            <article class="service-card" id="service-ai-integration" data-reveal>
               <span class="card-topline">04</span>
               <h3>AI Integration &amp; Automation</h3>
               <p>AI agents, assistants και αυτοματισμοί που βελτιώνουν εξυπηρέτηση, lead qualification και customer guidance.</p>
@@ -184,7 +126,7 @@
         </div>
       </section>
 
-      <section class="section">
+      <section class="section" id="ai-solutions-preview">
         <div class="container split-feature">
           <div class="section-header" data-reveal>
             <span class="eyebrow">Why LionCodeX</span>
@@ -212,7 +154,7 @@
         </div>
       </section>
 
-      <section class="section">
+      <section class="section" id="portfolio-preview">
         <div class="container">
           <div class="dark-panel" data-reveal>
             <div class="section-header">
@@ -241,7 +183,7 @@
         </div>
       </section>
 
-      <section class="section">
+      <section class="section" id="contact-booking">
         <div class="container">
           <div class="section-header section-header-centered" data-reveal>
             <span class="eyebrow">Process</span>
@@ -346,6 +288,5 @@
     </main>
 
     <div data-site-footer></div>
-    <script src="leo-puppet-export/leo-puppet.js"></script>
   </body>
 </html>

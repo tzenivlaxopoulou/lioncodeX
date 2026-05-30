@@ -1142,15 +1142,18 @@ body[data-page="home"] .hero .container {
 
 body[data-page="home"] .hero-shell {
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+  grid-template-columns: minmax(0, 1fr) minmax(560px, 0.95fr);
+  grid-template-areas: "copy leo";
   align-items: center;
   justify-items: stretch;
   align-content: center;
-  gap: clamp(20px, 2.6vw, 30px);
+  column-gap: clamp(24px, 3vw, 42px);
+  row-gap: 0;
   min-height: calc(100vh - var(--nav-h) - 7.2rem);
 }
 
 body[data-page="home"] .hero-main {
+  grid-area: copy;
   width: 100%;
   display: flex;
   justify-content: flex-start;
@@ -1221,387 +1224,204 @@ body[data-page="home"] .hero-value-point strong {
   margin-right: 0.42rem;
 }
 
-body[data-page="home"] .hero-bubble-row {
-  grid-column: 1 / -1;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 0.25rem;
-}
-
-body[data-page="home"] .hero-leo-puppet-test {
+body[data-page="home"] .hero-leo-3d {
+  grid-area: leo;
+  align-self: center;
   justify-self: end;
   position: relative;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  width: min(100%, 520px);
-  min-height: 420px;
+  width: min(100%, 760px);
+  min-height: 560px;
+  z-index: 1;
+  margin-top: clamp(20px, 4vh, 56px);
   padding: 0 !important;
   overflow: visible;
   background: transparent !important;
   border: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
+  pointer-events: none;
+  transform: none;
 }
 
-body[data-page="home"] .hero-leo-puppet-test .leo-puppet-test-copy,
-body[data-page="home"] .hero-leo-puppet-test .leo-puppet-controls {
-  display: none;
-}
-
-body[data-page="home"] .hero-leo-puppet-test .leo-puppet-shell {
+body[data-page="home"] .hero-leo-assistant {
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(18px, 2vw, 28px);
+  min-height: 560px;
   width: 100%;
-  min-height: 420px;
-  padding: 0 !important;
-  margin: 0;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
 }
 
-body[data-page="home"] .hero-leo-puppet-test .leo-puppet {
-  transform: scale(0.78);
-  transform-origin: center top;
-  margin: 0 0 -72px;
-  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.35));
-}
-
-body[data-page="home"] .hero-assistant {
+body[data-page="home"] .hero-leo-3d__stage {
   position: relative;
-  width: min(100%, 820px);
-  min-height: 274px;
-  height: 274px;
-  margin-inline: auto;
-  padding: 0 228px 0 0;
-  overflow: visible;
+  order: 2;
+  flex: 0 0 clamp(410px, 31vw, 520px);
+  min-width: 400px;
+  min-height: 520px;
+  transform: translateY(clamp(18px, 3vh, 36px));
+  cursor: default;
+  isolation: isolate;
+  touch-action: manipulation;
+  pointer-events: none;
 }
 
-body[data-page="home"] .leo-chat-card {
-  position: relative;
+body[data-page="home"] .hero-leo-3d__stage canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  filter: drop-shadow(0 22px 46px rgba(0, 0, 0, 0.36));
+  pointer-events: none;
+}
+
+body[data-page="home"] .hero-leo-3d__loader {
+  position: absolute;
+  left: 50%;
+  bottom: 18%;
   z-index: 2;
-  width: min(100%, 680px);
-  max-width: 680px;
-  height: 240px;
-  min-height: 240px;
-  max-height: 240px;
-  background: rgba(7, 18, 38, 0.96);
-  border: 1px solid rgba(214, 181, 111, 0.35);
-  border-radius: 36px;
-  padding: 22px 24px 18px;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(16px);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: max-width 260ms ease, padding 260ms ease, box-shadow 260ms ease;
+  padding: 0.58rem 0.86rem;
+  border: 1px solid rgba(216, 191, 132, 0.22);
+  border-radius: 999px;
+  background: rgba(7, 18, 38, 0.72);
+  color: rgba(245, 240, 230, 0.82);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+  transition: opacity 220ms ease, visibility 220ms ease;
 }
 
-body[data-page="home"] .leo-chat-card::after {
+body[data-page="home"] .hero-leo-3d.is-loaded .hero-leo-3d__loader {
+  opacity: 0;
+  visibility: hidden;
+}
+
+body[data-page="home"] .hero-leo-3d.is-error .hero-leo-3d__loader {
+  opacity: 0;
+  visibility: hidden;
+}
+
+body[data-page="home"] .leo-response-bubble {
+  position: relative;
+  order: 1;
+  flex: 0 0 clamp(280px, 23vw, 340px);
+  align-self: center;
+  z-index: 4;
+  width: clamp(280px, 23vw, 340px);
+  padding: 18px;
+  border: 1px solid rgba(216, 191, 132, 0.36);
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgba(10, 22, 43, 0.94), rgba(7, 16, 32, 0.88)),
+    rgba(7, 18, 38, 0.9);
+  box-shadow:
+    0 22px 60px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 10px, 0) scale(0.98);
+  transition:
+    opacity 220ms ease,
+    visibility 220ms ease,
+    transform 260ms ease;
+  pointer-events: none;
+}
+
+body[data-page="home"] .leo-response-bubble.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0) scale(1);
+  pointer-events: auto;
+}
+
+body[data-page="home"] .leo-response-bubble::before {
   content: "";
   position: absolute;
-  right: 26px;
-  bottom: 44px;
-  width: 32px;
-  height: 26px;
-  background: rgba(7, 18, 38, 0.96);
-  border-right: 1px solid rgba(214, 181, 111, 0.35);
-  border-bottom: 1px solid rgba(214, 181, 111, 0.35);
-  border-bottom-left-radius: 18px;
-  clip-path: polygon(0 8%, 100% 0, 38% 100%);
-  transform: rotate(10deg);
-  transform-origin: top right;
+  right: -40px;
+  top: -1px;
+  width: 76px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(216, 191, 132, 0.72), transparent);
+  box-shadow: 0 0 18px rgba(216, 191, 132, 0.24);
 }
 
-body[data-page="home"] .leo-chat-card__header {
-  margin-bottom: 1rem;
+body[data-page="home"] .leo-response-bubble p {
+  margin: 0 0 0.9rem;
+  color: rgba(245, 240, 230, 0.94);
+  font-size: 0.94rem;
+  line-height: 1.55;
 }
 
-body[data-page="home"] .leo-chat-card__header strong {
-  display: block;
-  color: rgba(245, 240, 230, 0.96);
-  font-family: "Fraunces", serif;
-  font-size: 1.05rem;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.18;
+body[data-page="home"] .leo-response-bubble__actions {
+  display: grid;
+  gap: 0.5rem;
 }
 
-body[data-page="home"] .leo-chat-card__header span {
-  display: block;
-  margin-top: 0.34rem;
-  color: rgba(241, 236, 227, 0.66);
-  font-size: 0.82rem;
-  line-height: 1.48;
-}
-
-body[data-page="home"] .leo-chat-card__message {
-  flex: 1 1 auto;
-  min-height: 0;
-  margin-bottom: 0.9rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 0.3rem;
-  scrollbar-gutter: stable;
-}
-
-body[data-page="home"] .leo-chat-card__message::-webkit-scrollbar {
-  width: 6px;
-}
-
-body[data-page="home"] .leo-chat-card__message::-webkit-scrollbar-thumb {
-  background: rgba(216, 191, 132, 0.22);
-  border-radius: 999px;
-}
-
-body[data-page="home"] .leo-chat-card__entry {
-  display: flex;
-  margin-bottom: 0.65rem;
-}
-
-body[data-page="home"] .leo-chat-card__entry:last-child {
-  margin-bottom: 0;
-}
-
-body[data-page="home"] .leo-chat-card__entry--user {
-  justify-content: flex-end;
-}
-
-body[data-page="home"] .leo-chat-card__message p {
-  margin: 0;
-  padding: 0.82rem 0.94rem;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(241, 236, 227, 0.92);
-  font-size: 0.92rem;
-  line-height: 1.58;
-  max-width: 92%;
-}
-
-body[data-page="home"] .leo-chat-card__entry--user p {
-  background: linear-gradient(135deg, rgba(216, 191, 132, 0.98), rgba(196, 163, 98, 0.92));
-  color: #091731;
-  border-top-right-radius: 8px;
-}
-
-body[data-page="home"] .leo-chat-card__entry--leo p {
-  border-top-left-radius: 8px;
-}
-
-body[data-page="home"] .hero-assistant:not(.is-open) .leo-chat-card {
-  padding: 20px 22px 18px;
-}
-
-body[data-page="home"] .leo-chat-card__chips,
-body[data-page="home"] .leo-chat-card__actions {
-  transition:
-    opacity 180ms ease,
-    transform 220ms ease,
-    max-height 240ms ease,
-    margin 220ms ease;
-  transform-origin: top center;
-}
-
-body[data-page="home"] .hero-assistant:not(.is-open) .leo-chat-card__chips,
-body[data-page="home"] .hero-assistant:not(.is-open) .leo-chat-card__actions {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-8px);
-  max-height: 0;
-  overflow: hidden;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-body[data-page="home"] .hero-assistant:not(.is-open) .leo-chat-card__message {
-  margin-bottom: 0;
-}
-
-body[data-page="home"] .hero-assistant.is-open .leo-chat-card {
-  width: min(100%, 680px);
-  max-width: 680px;
-  height: auto;
-  min-height: 240px;
-  max-height: 320px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  overscroll-behavior: contain;
-}
-
-body[data-page="home"] .hero-assistant.is-open .leo-chat-card__chips {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-  max-height: 120px;
-}
-
-body[data-page="home"] .hero-assistant.is-open .leo-chat-card__actions {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-  max-height: 120px;
-}
-
-body[data-page="home"] .leo-chat-card__chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-  margin-bottom: 0.8rem;
-}
-
-body[data-page="home"] .leo-chat-card__chip,
-body[data-page="home"] .leo-chat-card__action {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 40px;
-  padding: 0 0.95rem;
-  border-radius: 999px;
-  font-size: 0.83rem;
-  line-height: 1;
-}
-
-body[data-page="home"] .leo-chat-card__chip {
-  border: 1px solid rgba(216, 191, 132, 0.16);
-  background: rgba(255, 255, 255, 0.035);
-  color: rgba(241, 236, 227, 0.88);
-  cursor: pointer;
-  transition: background 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
-}
-
-body[data-page="home"] .leo-chat-card__chip.is-active {
-  border-color: rgba(216, 191, 132, 0.48);
-  background: linear-gradient(135deg, rgba(216, 191, 132, 0.22), rgba(196, 163, 98, 0.16));
-  color: rgba(249, 244, 234, 0.98);
-  box-shadow: inset 0 0 0 1px rgba(216, 191, 132, 0.12);
-}
-
-body[data-page="home"] .leo-chat-card__actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.7rem;
-  margin-top: 0.15rem;
-}
-
-body[data-page="home"] .leo-chat-card__actions:empty {
-  display: none;
-}
-
-body[data-page="home"] .leo-chat-card__action {
-  border: 1px solid rgba(21, 39, 66, 0.12);
-  background: linear-gradient(135deg, rgba(254, 251, 244, 0.98), rgba(244, 232, 209, 0.94));
-  color: #132640;
-  font-weight: 700;
-  text-decoration: none;
-  box-shadow: 0 10px 26px rgba(13, 23, 42, 0.08);
-}
-
-body[data-page="home"] .hero-leo-popout {
-  position: absolute;
-  right: -10px;
-  bottom: -4px;
-  width: 184px;
-  height: 246px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 3;
-  pointer-events: none;
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  overflow: visible !important;
-}
-
-body[data-page="home"] .hero-leo-popout::before,
-body[data-page="home"] .hero-leo-popout::after {
-  display: none !important;
-  content: none !important;
-}
-
-body[data-page="home"] .leo-mascot {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: 0;
-  background: transparent;
+body[data-page="home"] .leo-response-bubble__cta {
   appearance: none;
-  cursor: grab;
-  overflow: visible;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 4;
-  pointer-events: auto;
-  transform: none;
-  transform-origin: center bottom;
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 38px;
+  padding: 0.62rem 0.82rem;
+  border: 1px solid rgba(216, 191, 132, 0.15);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  color: rgba(245, 240, 230, 0.84);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  opacity: 0.72;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
 }
 
-body[data-page="home"] .hero-assistant.is-dragging .leo-mascot {
-  cursor: grabbing;
+body[data-page="home"] .leo-response-bubble__cta::after {
+  content: ">";
+  margin-left: 0.75rem;
+  color: rgba(216, 191, 132, 0.7);
+  font-weight: 800;
 }
 
-body[data-page="home"] .leo-mascot img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: contain;
-  object-position: center bottom;
-  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.28));
-  transition: opacity 180ms ease;
-  will-change: opacity;
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  transform-origin: center bottom;
+body[data-page="home"] .leo-response-bubble__cta.is-highlighted {
+  border-color: rgba(216, 191, 132, 0.58);
+  background: rgba(216, 191, 132, 0.12);
+  color: rgba(255, 250, 240, 0.98);
+  opacity: 1;
+  transform: translateX(-3px);
+  box-shadow:
+    0 0 0 1px rgba(216, 191, 132, 0.08),
+    0 0 28px rgba(216, 191, 132, 0.22);
 }
 
-body[data-page="home"] .leo-mascot img.is-popping {
-  animation: leoPopOut 1100ms cubic-bezier(0.18, 0.89, 0.32, 1.28) both;
+body[data-page="home"] .leo-response-bubble__cta.is-revealed {
+  opacity: 1;
 }
 
-@keyframes leoPopOut {
-  0% {
-    opacity: 0;
-    transform: translateY(45px) scale(0.35) rotate(-4deg);
-    filter: blur(2px);
-  }
-
-  35% {
-    opacity: 1;
-    transform: translateY(-22px) scale(1.18) rotate(2deg);
-    filter: blur(0);
-  }
-
-  55% {
-    transform: translateY(6px) scale(0.96) rotate(-1deg);
-  }
-
-  75% {
-    transform: translateY(-4px) scale(1.04) rotate(1deg);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1) rotate(0deg);
-    filter: blur(0);
-  }
+body[data-page="home"] .leo-response-bubble.is-sequencing .leo-response-bubble__cta {
+  pointer-events: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  body[data-page="home"] .leo-mascot img.is-popping {
-    animation: none;
-  }
+body[data-page="home"] .leo-response-bubble__cta.is-disabled {
+  color: rgba(241, 236, 227, 0.36);
+  cursor: not-allowed;
+}
+
+body[data-page="home"] .leo-response-bubble__cta.is-disabled::after {
+  content: "Soon";
+  color: rgba(241, 236, 227, 0.32);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 960px) {
@@ -1611,6 +1431,9 @@ body[data-page="home"] .leo-mascot img.is-popping {
 
   body[data-page="home"] .hero-shell {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "copy"
+      "leo";
     justify-items: center;
     gap: 2.4rem;
     min-height: auto;
@@ -1647,77 +1470,50 @@ body[data-page="home"] .leo-mascot img.is-popping {
     justify-content: center;
   }
 
-  body[data-page="home"] .hero-leo-puppet-test {
+  body[data-page="home"] .hero-leo-3d {
     justify-self: center;
-    width: min(100%, 500px);
-    min-height: 340px;
-  }
-
-  body[data-page="home"] .hero-leo-puppet-test .leo-puppet-shell {
-    min-height: 340px;
-  }
-
-  body[data-page="home"] .hero-leo-puppet-test .leo-puppet {
-    transform: scale(0.72);
-    margin-bottom: -100px;
-  }
-
-  body[data-page="home"] .hero-assistant {
-    width: 100%;
-    min-height: auto;
-    height: auto;
-    justify-self: stretch;
-    padding: 0 0 122px;
-  }
-
-  body[data-page="home"] .leo-chat-card {
-    width: 100%;
-    max-width: none;
-    height: auto;
+    width: min(100%, 420px);
+    min-width: min(100%, 420px);
     min-height: 0;
-    overflow: visible;
-    padding: 24px 20px 22px;
+    margin-top: 0;
+    transform: none;
   }
 
-  body[data-page="home"] .hero-assistant.is-open .leo-chat-card {
+  body[data-page="home"] .hero-leo-assistant {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    min-height: 0;
     width: 100%;
-    max-width: none;
   }
 
-  body[data-page="home"] .hero-assistant:not(.is-open) .leo-chat-card__chips,
-  body[data-page="home"] .hero-assistant:not(.is-open) .leo-chat-card__form,
-  body[data-page="home"] .hero-assistant.is-open .leo-chat-card__chips,
-  body[data-page="home"] .hero-assistant.is-open .leo-chat-card__form {
-    max-height: none;
-    overflow: visible;
+  body[data-page="home"] .hero-leo-3d__stage {
+    order: 1;
+    flex: 0 0 auto;
+    width: min(100%, 420px);
+    min-width: min(100%, 420px);
+    min-height: 420px;
+    transform: none;
   }
 
-  body[data-page="home"] .leo-chat-card::after {
-    right: 42px;
-    bottom: 20px;
-    width: 30px;
-    height: 22px;
-    border-right: 1px solid rgba(214, 181, 111, 0.35);
-    border-bottom: 1px solid rgba(214, 181, 111, 0.35);
-    border-bottom-left-radius: 16px;
-    clip-path: polygon(0 8%, 100% 0, 38% 100%);
-    transform: rotate(10deg);
+  body[data-page="home"] .leo-response-bubble {
+    position: relative;
+    left: auto;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    order: 2;
+    flex: 0 1 auto;
+    width: min(100%, 390px);
+    margin-top: 0;
+    transform: translate3d(0, 12px, 0) scale(0.98);
   }
 
-  body[data-page="home"] .leo-chat-card__form {
-    grid-template-columns: 1fr;
+  body[data-page="home"] .leo-response-bubble.is-visible {
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
-  body[data-page="home"] .hero-leo-popout {
-    right: -4px;
-    bottom: -2px;
-    width: 142px;
-    height: 188px;
-  }
-
-  body[data-page="home"] .leo-mascot {
-    cursor: default;
-  }
 }
 
 @media (max-width: 640px) {
@@ -1734,17 +1530,14 @@ body[data-page="home"] .leo-mascot img.is-popping {
     gap: 0.7rem;
   }
 
-  body[data-page="home"] .hero-leo-puppet-test {
-    min-height: 300px;
+  body[data-page="home"] .hero-leo-3d {
+    width: min(100%, 320px);
+    min-width: 280px;
+    min-height: 280px;
   }
 
-  body[data-page="home"] .hero-leo-puppet-test .leo-puppet {
-    transform: scale(0.7);
-    margin-bottom: -118px;
-  }
-
-  body[data-page="home"] .hero-leo-puppet-test .leo-puppet-shell {
-    min-height: 300px;
+  body[data-page="home"] .hero-leo-3d__stage {
+    min-width: 280px;
   }
 }
 
@@ -3403,80 +3196,7 @@ body[data-service="website-development"] .leo-page-guide--interactive .leo-page-
     pointer-events: none;
   }
 
-  body[data-page="home"] .hero-bubble-row {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  body[data-page="home"] .hero-assistant {
-    width: 100%;
-    max-width: 420px;
-    min-height: 0;
-    height: auto;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-inline: auto;
-    overflow: visible;
-  }
-
-  body[data-page="home"] .leo-chat-card {
-    order: 2;
-    width: min(100%, 90vw);
-    max-width: 90%;
-    margin: 0 auto;
-    height: auto;
-    max-height: 180px;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  body[data-page="home"] .hero-assistant.is-open .leo-chat-card {
-    max-height: 260px;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  body[data-page="home"] .leo-chat-card__message {
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  body[data-page="home"] .leo-chat-card__header,
-  body[data-page="home"] .leo-chat-card__message,
-  body[data-page="home"] .leo-chat-card__chips,
-  body[data-page="home"] .leo-chat-card__form {
-    max-width: 100%;
-  }
-
-  body[data-page="home"] .leo-mascot {
-    position: relative;
-    order: 1;
-    right: auto;
-    bottom: auto;
-    width: min(260px, 62vw);
-    height: min(320px, 78vw);
-    max-width: 260px;
-    margin: 0 auto;
-    display: flex;
-    z-index: 2;
-  }
-
-  body[data-page="home"] .leo-mascot img {
-    width: 100%;
-    max-width: 260px;
-    height: 100%;
-  }
-
-  .page-hero-side--leo[data-reveal],
-  .hero-bubble-row[data-reveal] {
+  .page-hero-side--leo[data-reveal] {
     opacity: 1 !important;
     transform: none !important;
   }
